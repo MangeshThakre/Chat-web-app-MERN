@@ -1,23 +1,27 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Authentication from "./components/authentication.js";
+import Button from "@mui/material/Button";
+import Register from "./components/registration";
+import Signin from "./components/signin";
+import Dashbord from "./components/dashbord.js";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div className="body">
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Dashbord />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Register />} />
+          </Routes>
+        </BrowserRouter>
+        ,{/* <Authentication /> */}
+        {/* <Register /> */}
+        {/* <Signin /> */}
+      </div>
     </div>
   );
 }
