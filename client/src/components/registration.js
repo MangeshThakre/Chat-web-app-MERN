@@ -6,7 +6,6 @@ import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
 import { useState } from "react";
 // import "dotenv/config";
 function Register() {
@@ -21,6 +20,7 @@ function Register() {
 
   const submit = async () => {
     password === conformPassword ? setError(false) : setError(true);
+
     try {
       const response = await axios({
         method: "post",

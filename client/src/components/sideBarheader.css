@@ -1,0 +1,12 @@
+.sideBarheader{
+    height: 80px;
+    width : 100%;
+    background-color: #001e3c;
+}
+.header{
+    height: 80px;
+    display: flex;
+    font-size: disabled ;
+    align-items: center;
+justify-content: space-around;
+}

@@ -15,6 +15,9 @@ router.post("/signin", index.signin);
 
 router.get("/verify", Authorization, index.verify);
 
+router.post("/newContact", Authorization, index.newContact);
+
+router.get("/contactList", Authorization, index.contactList);
 function Authorization(req, res, next) {
   const authHeader = req.headers["authorization"];
   const token = authHeader.split(" ")[1];

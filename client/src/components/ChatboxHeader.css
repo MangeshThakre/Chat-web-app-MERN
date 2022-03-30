@@ -1,0 +1,28 @@
+.ChatboxHeader{
+    background-color: #001e3c;
+    height: 80px;
+    width: 100%;
+    display: flex;
+
+}
+.currentContactdetail{
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between;  */
+    margin: 6px;
+
+}
+.currentContactInfo{
+
+}
+.currentContactImg{
+    margin:   0px 20px 0px 20px;
+
+}
+
+.logout{
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+    width: 100%;
+  }

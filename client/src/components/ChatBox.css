@@ -1,0 +1,26 @@
+.chatbox{
+    height:420px;
+    width: 100%;
+    background-color: #001e3c;
+}
+
+
+.messageContainer{
+    height:420px;
+ padding: 0px 20px 0px 20px ;
+ overflow: auto;
+ -ms-overflow-style: none;
+ scrollbar-width: none;
+}
+.messageContainer::-webkit-scrollbar {
+    display: none;
+  }
+.sender{
+    display: flex;
+    justify-content: flex-start;
+}
+
+.sender{
+    display: flex;
+    justify-content: flex-end;
+}
