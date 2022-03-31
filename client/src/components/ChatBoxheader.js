@@ -4,15 +4,15 @@ import "./ChatboxHeader.css";
 import Avatar from "@mui/material/Avatar";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import IconButton from "@mui/material/IconButton";
 function ChatBoxheader({ currentlyChatingWith }) {
   let { roomId } = useParams();
   const navigate = useNavigate();
 
   const logout = () => {
-    // console.log("logput");
-    localStorage.removeItem("Token");
-    navigate("/signin");
+    // localStorage.removeItem("Token");
+    // navigate("/signin");
   };
 
   // if (currentlyChatingWith.le) console.log(currentlyChatingWith);
@@ -29,7 +29,7 @@ function ChatBoxheader({ currentlyChatingWith }) {
           </div>
 
           <div className="currentContactInfo">
-            <p>{currentlyChatingWith.name}</p>
+            <h3>{currentlyChatingWith.name}</h3>
             <p>{currentlyChatingWith.phoneNo}</p>
           </div>
         </div>
@@ -38,13 +38,14 @@ function ChatBoxheader({ currentlyChatingWith }) {
       )}
 
       <div className="logout">
-        <button
+        <IconButton
+          style={{ color: "white" }}
           onClick={() => {
             logout();
           }}
         >
-          logout
-        </button>
+          <LogoutIcon />
+        </IconButton>
       </div>
     </div>
   );

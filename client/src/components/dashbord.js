@@ -17,6 +17,10 @@ import Picker from "emoji-picker-react";
 import "./dashbord.css";
 import { useParams } from "react-router-dom";
 import { rootShouldForwardProp } from "@mui/material/styles/styled";
+const ENDPOINT = "http://localhost:8081";
+
+var socket = io(ENDPOINT, { transports: ["websocket"] });
+
 function Dashbord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -33,10 +37,12 @@ function Dashbord() {
   //   const TOKEN = useSelector((state) => state.currentUserReducer.token);
   const TOKEN = localStorage.getItem("Token");
   if (!localStorage.getItem("Token")) navigate("/signin");
-  var socket = io("http://localhost:8081");
-  socket.on("connection", () => {
-    console.log(`I'm connected with the back-end`);
-  });
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log(`connected with the back-end`);
+    });
+  }, []);
 
   // localStorage.removeItem("Token");
 
@@ -44,10 +50,19 @@ function Dashbord() {
     navigate("/");
   }, []);
   useEffect(() => {
-    console.log(roomId);
-    console.log(receiverMessaage);
-    socket.emit("join-room", roomId);
+    // console.log(roomId);
+    // console.log(receiverMessaage);
+    socket.emit("join-room", roomId, receiverMessaage);
   }, [receiverMessaage]);
+
+  socket.on("receive-message", (message) => {
+    const box = document.querySelector(".chatbox .messageContainer");
+    const div = document.createElement("div");
+    div.className = "receiver";
+    div.innerHTML = `${message}`;
+    box.appendChild(div);
+  });
+
   useEffect(() => {
     getUser();
   }, []);

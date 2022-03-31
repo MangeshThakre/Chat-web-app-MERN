@@ -1,4 +1,68 @@
 .EditProfile{
   background-color: #001e3c;
   color:white ;
+  height: 580px;
+  width: 340px;
+
 }
+
+.editProfileHeader{
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0px 0 0 20px;
+    background-color: #071a2e;
+}
+.editProfileHeader > h3{
+  margin-left: 20px;
+}
+.userImg{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  position: relative;
+}
+.userImg > img{
+  object-fit: cover;
+  height: 150px;
+  width: 150px;
+  border-radius: 51%;
+  cursor: pointer;
+}
+
+.edit{
+  color: white;
+position: absolute;
+top: 138px;
+left: 200px;
+background-color: #0E1428;
+border-radius: 50%;
+height: 30px;
+width: 30px;
+display: flex;
+align-items: center;
+cursor: pointer;
+justify-content: center;
+}
+.userProfileInfo{
+ margin: 0 30px 0 30px ;
+
+}
+.userProfileInfo >div {
+  margin-top:20px  ;
+  display: flex;
+}
+
+.userProfileInfo >div >div> p{
+margin: 0;
+}
+.userProfileInfo >div >div > h3 {
+  margin: 0 0 5px 0;
+  }
+
+
+  .icon{
+    margin: 5px 15px 0px 0;
+  }
+

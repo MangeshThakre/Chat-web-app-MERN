@@ -182,6 +182,27 @@ class codeeditorController {
       console.log(error);
     }
   };
+
+  static updateimage = async (req, res) => {
+    const path = req.file.path;
+    const userId = req.user.id;
+    const userPhoneNo = req.body.userPhoneNo;
+    console.log(path);
+    try {
+      const updateUserPic = await userModel.findByIdAndUpdate(userId, {
+        profilePic: path,
+      });
+      const userInContacts = await contactModel.findOneAndUpdate(
+        { phoneNo: userPhoneNo },
+        { profilePic: path }
+      );
+      console.log(userInContacts);
+
+      res.json({ data: "data" });
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
 }
 
 module.exports = codeeditorController;

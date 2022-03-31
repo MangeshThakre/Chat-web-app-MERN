@@ -4,6 +4,7 @@ import "./sideBarheader.css";
 import AddIcon from "@mui/icons-material/Add";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
+import LogoutIcon from "@mui/icons-material/Logout";
 function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const userName =
@@ -14,15 +15,17 @@ function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
     <div className="sideBarheader">
       <div className="header">
         <div
+          className="userInfobox"
           onClick={() => {
             setToggle(!toggle);
           }}
         >
           <Avatar alt={userName} src="/static/images/avatar/1.jpg" />
-        </div>
-        <div>
-          <p>{userName}</p>
-          <p>{phoneNo}</p>
+
+          <div className="userInfo">
+            <h3>{userName}</h3>
+            <p>{phoneNo}</p>
+          </div>
         </div>
 
         <IconButton

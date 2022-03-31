@@ -6,7 +6,22 @@
 .header{
     height: 80px;
     display: flex;
-    font-size: disabled ;
     align-items: center;
-justify-content: space-around;
+   justify-content: space-around;
 }
+
+.userInfobox{
+  cursor: pointer;
+    display :flex;
+    align-items: center;
+}
+.userInfo{
+    margin-left: 20px;
+}
+.userInfo > p{
+    margin :0
+}
+.userInfo > h3{
+    margin :0
+}
+

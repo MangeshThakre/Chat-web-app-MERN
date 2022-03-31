@@ -4,6 +4,7 @@ const ContactSchema = new Schema({
   userIDs: { type: Array, require: true },
   roomId: { type: Array, require: true },
   name: { type: String, require: true },
+  profilePic: { type: String },
   phoneNo: { type: Number },
 });
 
