@@ -24,12 +24,16 @@ function ChatBoxheader({ currentlyChatingWith }) {
           <div className="currentContactImg">
             <Avatar
               alt={currentlyChatingWith.name}
-              src="/static/images/avatar/1.jpg"
+              src={
+                currentlyChatingWith
+                  ? "http://localhost:8081/" + currentlyChatingWith.profilePic
+                  : ""
+              }
             />
           </div>
 
           <div className="currentContactInfo">
-            <h3>{currentlyChatingWith.name}</h3>
+            <h5>{currentlyChatingWith.name}</h5>
             <p>{currentlyChatingWith.phoneNo}</p>
           </div>
         </div>

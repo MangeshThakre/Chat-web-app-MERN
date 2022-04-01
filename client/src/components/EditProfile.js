@@ -12,7 +12,11 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import "./editProfile.css";
 function EditProfile({ toggle, setToggle, USERDATA }) {
+
   const TOKEN = localStorage.getItem("Token");
+  console.log(`http://localhost:8081/` + USERDATA.profilePic);
+
+  console.log(USERDATA);
 
   const upload = async (e) => {
     const image = e.target.files[0];
@@ -50,7 +54,10 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
       </div>
       <div>
         <div className="userImg">
-          <img src={`http://localhost:8081${USERDATA.profilePic}`} alt="img" />
+          <img
+            src={USERDATA ? `http://localhost:8081/` + USERDATA.profilePic : ""}
+            alt="img"
+          />
 
           <label id="icon-button-file" className="edit">
             <PhotoCameraIcon />

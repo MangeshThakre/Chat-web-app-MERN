@@ -51,16 +51,18 @@ function Dashbord() {
   }, []);
   useEffect(() => {
     // console.log(roomId);
-    // console.log(receiverMessaage);
+    console.log(receiverMessaage);
     socket.emit("join-room", roomId, receiverMessaage);
   }, [receiverMessaage]);
 
   socket.on("receive-message", (message) => {
-    const box = document.querySelector(".chatbox .messageContainer");
-    const div = document.createElement("div");
-    div.className = "receiver";
-    div.innerHTML = `${message}`;
-    box.appendChild(div);
+    if (currentlyChatingWith.length != 0) {
+      const box = document.querySelector(".chatbox .messageContainer");
+      const div = document.createElement("div");
+      div.className = "receiver";
+      div.innerHTML = `${message}`;
+      box.appendChild(div);
+    }
   });
 
   useEffect(() => {

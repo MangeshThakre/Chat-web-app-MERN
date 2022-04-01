@@ -31,12 +31,16 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
     navigate(`/roomId/${roomId}`);
     setCurrentlyChatingWith(contact);
   };
+
   return (
     <div>
       <Box>
         <ListItem button alignItems="flex-start" onClick={() => room()}>
           <ListItemAvatar>
-            <Avatar alt={contact.name} src="/static/images/avatar/1.jpg" />
+            <Avatar
+              alt={contact.name}
+              src={contact ? "http://localhost:8081/" + contact.profilePic : ""}
+            />
           </ListItemAvatar>
           <ListItemText style={{ margin: "10px" }} primary={contact.name} />
         </ListItem>

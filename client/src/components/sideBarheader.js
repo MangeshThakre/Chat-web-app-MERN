@@ -20,7 +20,10 @@ function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
             setToggle(!toggle);
           }}
         >
-          <Avatar alt={userName} src="/static/images/avatar/1.jpg" />
+          <Avatar
+            alt={userName}
+            src={USERDATA ? "http://localhost:8081/" + USERDATA.profilePic : ""}
+          />
 
           <div className="userInfo">
             <h3>{userName}</h3>

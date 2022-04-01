@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const index = require("../controller/Controllercodeeditor.js");
 const bodyparser = require("body-parser");
+
 const multer = require("multer");
 var jwt = require("jsonwebtoken");
 
@@ -10,7 +11,7 @@ router.use(bodyparser.json());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/uploads/");
+    cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -30,6 +31,7 @@ router.get("/verify", Authorization, index.verify);
 router.post("/newContact", Authorization, index.newContact);
 
 router.get("/contactList", Authorization, index.contactList);
+
 
 router.post(
   "/updateimage",

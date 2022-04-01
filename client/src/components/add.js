@@ -6,7 +6,8 @@ import { useState } from "react";
 import NewContact from "./NewContact.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
-import Avatar from "@mui/material/Avatar";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import GroupsIcon from "@mui/icons-material/Groups";
 import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import "./add.css";
@@ -52,7 +53,7 @@ function Add({ addToggle, setAddToggle }) {
               onClick={() => setNewContactToggle(!newContactToggle)}
             >
               <ListItemAvatar>
-                <Avatar alt="New contact" src="/static/images/avatar/1.jpg" />
+                <PersonAddIcon sx={{ fontSize: 30 }} />
               </ListItemAvatar>
               <ListItemText style={{ margin: "10px" }} primary="New contact" />
             </ListItem>
@@ -60,7 +61,7 @@ function Add({ addToggle, setAddToggle }) {
             {newContactToggle ? <NewContact /> : ""}
             <ListItem button alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt="New Group" src="/static/images/avatar/1.jpg" />
+                <GroupsIcon sx={{ fontSize: 30 }} />
               </ListItemAvatar>
               <ListItemText style={{ margin: "10px" }} primary="New Group" />
             </ListItem>
