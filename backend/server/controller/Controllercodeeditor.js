@@ -1,5 +1,6 @@
 const userModel = require("../schema/UserSchema.js");
 const contactModel = require("../schema/newContactSchema.js");
+const chatModel = require("../schema/chatSchema.js");
 var jwt = require("jsonwebtoken");
 const md5 = require("md5");
 
@@ -40,6 +41,7 @@ class codeeditorController {
   };
 
   static signin = async (req, res) => {
+    console.log(req.body);
     if (req.body.phoneNo) {
       try {
         const response = await userModel.findOne({
@@ -97,6 +99,21 @@ class codeeditorController {
     var roomIds = [];
     var roomid;
     try {
+      // find contact have account in the chet app
+      const contactRegistrationDetail = await userModel.find({
+        phoneNo: contactPhoneNo,
+      });
+
+      if (contactRegistrationDetail.length == 0)
+        return res.json({
+          response: "contact not exist",
+        });
+
+      if (contactRegistrationDetail[0].phoneNo == userPhoneNo)
+        return res.json({
+          response: "You can't add yourself",
+        });
+
       // find contact detail using contact phoneNo
       const contactDetail = await contactModel.find({
         phoneNo: contactPhoneNo,
@@ -135,8 +152,8 @@ class codeeditorController {
             { userIDs: userIds, roomId: roomIds }
           );
           res.json({
-            response,
-            // roomID:
+            result: response,
+            roomID: roomid,
           });
         } else if (contactDetail[0].userIDs.find((e) => e == userId)) {
           res.json({
@@ -150,10 +167,14 @@ class codeeditorController {
           name: req.body.contactName,
           phoneNo: req.body.contactPhoneNo,
           roomId: roomIds,
+          contactID: contactRegistrationDetail[0]._id,
+          profilePic: contactRegistrationDetail[0].profilePic,
+          type: "PRIVATE",
         });
         const result = await newContact.save();
         res.json({
           result,
+          roomID: roomid,
         });
       }
     } catch (error) {
@@ -196,11 +217,62 @@ class codeeditorController {
         { phoneNo: userPhoneNo },
         { profilePic: path }
       );
-      console.log(userInContacts);
 
-      res.json({ data: "data" });
+      const updatedUser = await userModel.findById(userId);
+      res.json(updatedUser);
     } catch (error) {
       console.log("error", error);
+    }
+  };
+
+  static message = async (req, res) => {
+    const senderId = req.user.id;
+    const roomId = req.body.roomId;
+    const text = req.body.text;
+    try {
+      const Chatresponse = new chatModel({
+        roomId: roomId,
+        senderId: senderId,
+        text: text,
+        created_at: new Date(),
+      });
+      const result = await Chatresponse.save();
+      console.log(result);
+      res.json(result);
+    } catch (error) {
+      console.log("error", error);
+      req.sendStatus(500);
+    }
+  };
+
+  static newgroup = async (req, res) => {
+    const userId = req.user.id;
+    const filePath = req.file?.path ? req.file.path : "";
+    const groupName = req.body.groupName;
+    const roomId = req.body.roomId;
+    const userIDs = req.body.userIDs + "," + userId;
+    try {
+      const newContact = new contactModel({
+        userIDs: userIDs.split(","),
+        name: groupName,
+        roomId: roomId,
+        profilePic: filePath,
+        type: "GROUP",
+      });
+      const result = await newContact.save();
+      res.json({ result, roomID: roomId });
+    } catch (error) {
+      res.sendStatus(500);
+    }
+  };
+
+  static getMessage = async (req, res) => {
+    try {
+      const roomId = req.params["roomId"];
+      const Chatrespons = await chatModel.find({ roomId });
+      res.json(Chatrespons);
+    } catch (error) {
+      res.sendStatus(500);
     }
   };
 }

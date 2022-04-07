@@ -11,23 +11,21 @@ function ChatBoxheader({ currentlyChatingWith }) {
   const navigate = useNavigate();
 
   const logout = () => {
-    // localStorage.removeItem("Token");
-    // navigate("/signin");
+    localStorage.removeItem("Token");
+    navigate("/signin");
   };
-
-  // if (currentlyChatingWith.le) console.log(currentlyChatingWith);
 
   return (
     <div className="ChatboxHeader">
-      {roomId ? (
+      {currentlyChatingWith.length !== 0 ? (
         <div className="currentContactdetail">
           <div className="currentContactImg">
             <Avatar
               alt={currentlyChatingWith.name}
               src={
-                currentlyChatingWith
+                currentlyChatingWith?.profilePic
                   ? "http://localhost:8081/" + currentlyChatingWith.profilePic
-                  : ""
+                  : null
               }
             />
           </div>

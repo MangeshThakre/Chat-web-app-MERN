@@ -20,13 +20,17 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
   const newroomId = md5(phoneNo + "_" + contactPhoneNo);
   var roomId;
   const room = () => {
-    roomId = contact.roomId.find((e) => {
-      if (e === existingroomId) {
-        return e;
-      } else if (e === newroomId) {
-        return e;
-      }
-    });
+    if (contact?.type == "GROUP") {
+      roomId = contact.roomId[0];
+    } else {
+      roomId = contact.roomId.find((e) => {
+        if (e === existingroomId) {
+          return e;
+        } else if (e === newroomId) {
+          return e;
+        }
+      });
+    }
 
     navigate(`/roomId/${roomId}`);
     setCurrentlyChatingWith(contact);
@@ -39,7 +43,11 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
           <ListItemAvatar>
             <Avatar
               alt={contact.name}
-              src={contact ? "http://localhost:8081/" + contact.profilePic : ""}
+              src={
+                contact.profilePic
+                  ? "http://localhost:8081/" + contact.profilePic
+                  : null
+              }
             />
           </ListItemAvatar>
           <ListItemText style={{ margin: "10px" }} primary={contact.name} />

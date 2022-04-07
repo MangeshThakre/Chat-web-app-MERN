@@ -6,17 +6,15 @@ import PhotoCameraIcon from "@mui/icons-material/PhotoCamera";
 import IconButton from "@mui/material/IconButton";
 import PersonIcon from "@mui/icons-material/Person";
 import InfoIcon from "@mui/icons-material/Info";
+import { USER } from "../redux/reduxToken/currentUserSplice.js";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import "./editProfile.css";
 function EditProfile({ toggle, setToggle, USERDATA }) {
-
   const TOKEN = localStorage.getItem("Token");
-  console.log(`http://localhost:8081/` + USERDATA.profilePic);
-
-  console.log(USERDATA);
+  const dispatch = useDispatch();
 
   const upload = async (e) => {
     const image = e.target.files[0];
@@ -36,7 +34,7 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
         data: formData,
       });
       const data = await response.data;
-      console.log(data);
+      dispatch(USER(data));
     } catch (error) {
       console.log("err", error);
     }

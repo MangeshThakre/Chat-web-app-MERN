@@ -11,7 +11,7 @@ router.use(bodyparser.json());
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "uploads/");
+    cb(null, "uploads");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -31,6 +31,18 @@ router.get("/verify", Authorization, index.verify);
 router.post("/newContact", Authorization, index.newContact);
 
 router.get("/contactList", Authorization, index.contactList);
+
+router.post("/message", Authorization, index.message);
+
+router.get("/getMessage/:roomId", Authorization, index.getMessage);
+
+router.post(
+  "/newgroup",
+  Authorization,
+  upload.single("groupImage"),
+  index.newgroup
+); 
+
 
 
 router.post(

@@ -4,6 +4,7 @@ import CardContent from "@mui/material/CardContent";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useState } from "react";
 import NewContact from "./NewContact.js";
+import NewGroup from "./NewGroup.js";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
@@ -12,8 +13,15 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import "./add.css";
 import IconButton from "@mui/material/IconButton";
-function Add({ addToggle, setAddToggle }) {
+function Add({
+  addToggle,
+  setAddToggle,
+  contactList,
+  setCurrentlyChatingWith,
+  setReloadContactlist,
+}) {
   const [newContactToggle, setNewContactToggle] = useState(false);
+  const [newGroup, setNewGroup] = useState(false);
   return (
     <div>
       <Card
@@ -50,7 +58,10 @@ function Add({ addToggle, setAddToggle }) {
             <ListItem
               button
               alignItems="flex-start"
-              onClick={() => setNewContactToggle(!newContactToggle)}
+              onClick={() => {
+                setNewContactToggle(!newContactToggle);
+                setNewGroup(false);
+              }}
             >
               <ListItemAvatar>
                 <PersonAddIcon sx={{ fontSize: 30 }} />
@@ -58,13 +69,34 @@ function Add({ addToggle, setAddToggle }) {
               <ListItemText style={{ margin: "10px" }} primary="New contact" />
             </ListItem>
 
-            {newContactToggle ? <NewContact /> : ""}
-            <ListItem button alignItems="flex-start">
+            {newContactToggle ? (
+              <NewContact
+                setCurrentlyChatingWith={setCurrentlyChatingWith}
+                setReloadContactlist={setReloadContactlist}
+              />
+            ) : (
+              ""
+            )}
+            <ListItem
+              button
+              alignItems="flex-start"
+              onClick={() => {
+                setNewContactToggle(false);
+                setNewGroup(!newGroup);
+              }}
+            >
               <ListItemAvatar>
                 <GroupsIcon sx={{ fontSize: 30 }} />
               </ListItemAvatar>
               <ListItemText style={{ margin: "10px" }} primary="New Group" />
             </ListItem>
+            {newGroup ? (
+              <NewGroup
+                contactList={contactList}
+                setCurrentlyChatingWith={setCurrentlyChatingWith}
+                setReloadContactlist={setReloadContactlist}
+              />
+            ) : null}
           </List>
         </CardContent>
       </Card>

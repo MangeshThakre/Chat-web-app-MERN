@@ -1,31 +1,41 @@
 import React from "react";
-import Paper from "@mui/material/Paper";
 import "./ChatBox.css";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import ChatBoxMessage from "./ChatBoxMessage.js";
-function ChatBox({ currentlyChatingWith }) {
-  let { roomId } = useParams();
-  // console.log(currentlyChatingWith);
-  // var scroll = document.querySelector(".messageContainer");
-  // scroll.scrollTop = scroll.scrollHeight;
-  // scroll.animate({ scrollTop: scroll.scrollHeight });
+import CircularProgress from "@mui/material/CircularProgress";
+
+import { useRef, useState, useEffect } from "react";
+function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
+  const USERDATA = useSelector((state) => state.currentUserReducer.user);
+  const scroll = useRef(null);
+  useEffect(() => {
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, currentlyChatingWith]);
+
+  const allMessage = messageLoading ? (
+    <div>
+      <div className="loading">Fetching....</div>
+    </div>
+  ) : (
+    <div className="messageContainer">
+      {messages.map((message, index) => {
+        return (
+          <ChatBoxMessage
+            key={index}
+            currentlyChatingWith={currentlyChatingWith}
+            person={USERDATA._id == message.senderId ? "sender" : "receiver"}
+            created_at={message.created_at}
+            text={message.text}
+          />
+        );
+      })}
+      <div ref={scroll}></div>
+    </div>
+  );
+
   return (
     <div className="chatbox">
-      {roomId ? (
-        <div className="messageContainer">
-          <ChatBoxMessage
-            currentlyChatingWith={currentlyChatingWith}
-            person="sender"
-          />
-          <ChatBoxMessage
-            currentlyChatingWith={currentlyChatingWith}
-            person="receiver"
-          />
-        </div>
-      ) : (
-        "....."
-      )}
+      {currentlyChatingWith.length !== 0 ? allMessage : "....."}
     </div>
   );
 }
