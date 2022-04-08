@@ -30,16 +30,16 @@ function ChatBoxFooter({
     setMessages([...messages, newMessage]);
 
     try {
-      // const response = await axios({
-      //   method: "post",
-      //   url: "http://localhost:8081/message",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //     Authorization: `Bearer ${TOKEN}`,
-      //   },
-      //   data: { text, roomId },
-      // });
-      // const data = await response.data;
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:8081/message",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        data: { text, roomId },
+      });
+      const data = await response.data;
       setText("");
 
       // socket.emit(newMessage, data);

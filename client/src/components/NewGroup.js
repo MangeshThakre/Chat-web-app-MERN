@@ -26,9 +26,11 @@ function NewGroup({
   setCurrentlyChatingWith,
   setReloadContactlist,
 }) {
-  const conntactsOnly = contactList.map((e) => {
-    return e.type == "PRIVATE";
-  });
+
+  var contactOnly = [];
+  for (const e of contactList) {
+    if (e.type == "PRIVATE") contactOnly.push(e);
+  }
 
   const navigation = useNavigate();
   const [groupName, setGroupName] = useState("");
@@ -36,6 +38,7 @@ function NewGroup({
   const [preNext, setPreNext] = useState("next");
   const [base64Image, setBase64Image] = useState("");
   const [image, setImage] = useState([]);
+
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -104,7 +107,7 @@ function NewGroup({
         dense
         sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
       >
-        {contactList.map((value) => {
+        {contactOnly.map((value) => {
           const labelId = `checkbox-list-secondary-label-${value}`;
           return (
             <ListItem

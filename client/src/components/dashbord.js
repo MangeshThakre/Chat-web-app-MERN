@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import Addparticapents from "./Addparticapents";
 import { USER } from "../redux/reduxToken/currentUserSplice.js";
 import Grid from "@mui/material/Grid";
 import SideBarheader from "./sideBarheader.js";
@@ -12,6 +13,7 @@ import ChatBox from "./ChatBox.js";
 import ChatBoxFooter from "./ChatBoxFooter.js";
 import EditProfile from "./EditProfile.js";
 import Add from "./add.js";
+import Pusher from "pusher-js";
 import ContactDetail from "./contactDetails";
 import io from "socket.io-client";
 import Picker from "emoji-picker-react";
@@ -26,7 +28,8 @@ function Dashbord() {
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const [toggle, setToggle] = useState(false);
   const [addToggle, setAddToggle] = useState(false);
-  const [contactDetailToggle, setContactDetailToggle] = useState(true);
+  const [addParticapentsToggle, setaddParticapentsToggle] = useState(false);
+  const [contactDetailToggle, setContactDetailToggle] = useState(false);
   const [contactList, setContactList] = useState([]);
   const [toggleEmojy, setToggleEmojy] = useState(false);
   const [chosenEmoji, setChosenEmoji] = useState(null);
@@ -35,36 +38,26 @@ function Dashbord() {
   const [currentChat, setCurrentChat] = useState("");
   const [messageLoading, setMessageLoading] = useState(false);
   const [reloadContactList, setReloadContactlist] = useState(false);
+  const [currentMember, setcurrentMember] = useState("");
+
   var socket;
   //   const TOKEN = useSelector((state) => state.currentUserReducer.token);
   useEffect(() => {
-    socket = io(ENDPOINT);
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
 
-    // socket = io(ENDPOINT, { autoConnect: false });
-  });
+    var pusher = new Pusher("e9c08f4eba776e45b9af", {
+      cluster: "ap2",
+    });
+
+    var channel = pusher.subscribe("receive-message");
+    channel.bind("inserted", function (data) {
+      alert(JSON.stringify(data));
+    });
+  }, []);
 
   const TOKEN = localStorage.getItem("Token");
   if (!localStorage.getItem("Token")) navigate("/signin");
-
-  // useEffect(() => {
-  //   socket.emit("joinChat", currentlyChatingWith.phoneNo);
-  //   console.log(currentlyChatingWith);
-  //   console.log(socket);
-  // }, [currentlyChatingWith]);
-
-  useEffect(() => {
-    socket.connect();
-    if (currentChat == "") return;
-    socket.emit("send_message", currentChat);
-    setCurrentChat("");
-  }, [currentChat]);
-
-  useEffect(() => {
-    socket.off("receive-message").on("receive-message", (currentChat) => {
-      console.log("currentChat", currentChat);
-    });
-    socket.removeAllListeners();
-  });
 
   useEffect(() => {
     navigate("/");
@@ -93,8 +86,8 @@ function Dashbord() {
       const data = await response.data;
       dispatch(USER(data));
       setIsLoading(false);
-      socket.connect();
-      socket.emit("setup", data);
+      // socket.connect();
+      // socket.emit("setup", data);
     } catch (error) {
       console.log("Error", error);
       navigate("/signin");
@@ -147,9 +140,25 @@ function Dashbord() {
             contactDetailToggle={contactDetailToggle}
             setContactDetailToggle={setContactDetailToggle}
             currentlyChatingWith={currentlyChatingWith}
+            setaddParticapentsToggle={setaddParticapentsToggle}
+            setcurrentMember={setcurrentMember}
           ></ContactDetail>
         ) : null}
       </div>
+      <div style={{ position: "absolute", zIndex: "3", right: "0" }}>
+        {addParticapentsToggle ? (
+          <Addparticapents
+            addParticapentsToggle={addParticapentsToggle}
+            setaddParticapentsToggle={setaddParticapentsToggle}
+            currentlyChatingWith={currentlyChatingWith}
+            currentMember={currentMember}
+            contactList={contactList}
+            setCurrentlyChatingWith={setCurrentlyChatingWith}
+            setReloadContactlist={setReloadContactlist}
+          />
+        ) : null}
+      </div>
+
       <div style={{ position: "fixed", zIndex: "1" }}>
         {addToggle ? (
           <Add
@@ -183,7 +192,10 @@ function Dashbord() {
               />
             </Grid>
             <Grid item xs={8}>
-              <ChatBoxheader currentlyChatingWith={currentlyChatingWith} />
+              <ChatBoxheader
+                currentlyChatingWith={currentlyChatingWith}
+                setContactDetailToggle={setContactDetailToggle}
+              />
             </Grid>
             <Grid item xs={4}>
               <Sidebar

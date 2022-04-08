@@ -1,5 +1,6 @@
 require("dotenv/config");
 require("./database.js");
+const Pusher = require("pusher");
 const express = require("express");
 const app = express();
 const http = require("http");
@@ -7,6 +8,7 @@ const router = require("./routes/codeeditorRouter.js");
 const socketIo = require("socket.io");
 const server = http.createServer(app);
 const path = require("path");
+const mongoose = require("mongoose");
 
 const cors = require("cors");
 const { disconnect } = require("process");
@@ -20,30 +22,30 @@ server.listen(port, () => {
   console.log(`server listening at  http://localhost:${port}`);
 });
 
-const io = socketIo(server, {
-  cors: {
-    origin: ["http://localhost:3000"],
-  },
+const pusher = new Pusher({
+  appId: "1382742",
+  key: "e9c08f4eba776e45b9af",
+  secret: "b9b161853cb878471a7b",
+  cluster: "ap2",
+  useTLS: true,
 });
-var userIDs = [];
 
-io.on("connection", (socket) => {
-  console.log(`connected socket.io`);
-
-  socket.on("setup", (user) => {
-    socket.user = user;
-    console.log("online-user", socket.user._id);
-    socket.emit("online-users", userIDs);
-  });
-
-  socket.on("send_message", (message) => {
-    console.log(message);
-    socket.broadcast.emit("receive-message", message);
-  });
-
-  socket.on("disconnect", () => {
-    socket.removeAllListeners("connection");
-    socket.removeAllListeners("send_message");
+const db = mongoose.connection;
+db.once("open", () => {
+  const chatmodel = db.collection("chatmodels");
+  const changeStream = chatmodel.watch();
+  changeStream.on("change", (change) => {
+    console.log(change);
+    if (change.operationType == "insert") {
+      pusher.trigger("receive-message", "inserted", {
+        receiveMessage: change.fullDocument,
+      });
+    } else {
+      console.log("ERROR");
+    }
   });
 });
+
+
+
 

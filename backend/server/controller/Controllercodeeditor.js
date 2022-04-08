@@ -237,7 +237,6 @@ class codeeditorController {
         created_at: new Date(),
       });
       const result = await Chatresponse.save();
-      console.log(result);
       res.json(result);
     } catch (error) {
       console.log("error", error);
@@ -263,6 +262,7 @@ class codeeditorController {
       res.json({ result, roomID: roomId });
     } catch (error) {
       res.sendStatus(500);
+      console.loc(error);
     }
   };
 
@@ -272,6 +272,30 @@ class codeeditorController {
       const Chatrespons = await chatModel.find({ roomId });
       res.json(Chatrespons);
     } catch (error) {
+      res.sendStatus(500);
+    }
+  };
+
+  static allMembers = async (req, res) => {
+    const userIds = req.body.userIDs;
+    try {
+      const response = await userModel.find({ _id: { $in: userIds } });
+      res.json(response);
+    } catch (error) {
+      console.log(error);
+      res.sendStatus(500);
+    }
+  };
+
+  static addgroupmember = async (req, res) => {
+    const userIDs = req.body.userIds;
+    const _id = req.body._id;
+    try {
+      await contactModel.findByIdAndUpdate(_id, { userIDs });
+      const response = await contactModel.findById(_id);
+      res.json(response);
+    } catch (error) {
+      console.log(error);
       res.sendStatus(500);
     }
   };

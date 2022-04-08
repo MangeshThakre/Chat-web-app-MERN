@@ -36,14 +36,15 @@ router.post("/message", Authorization, index.message);
 
 router.get("/getMessage/:roomId", Authorization, index.getMessage);
 
+router.post("/allMembers", Authorization, index.allMembers);
+
+router.post("/addgroupmember", Authorization, index.addgroupmember);
 router.post(
   "/newgroup",
   Authorization,
   upload.single("groupImage"),
   index.newgroup
 ); 
-
-
 
 router.post(
   "/updateimage",
