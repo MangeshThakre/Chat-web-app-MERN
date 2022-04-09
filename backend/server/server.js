@@ -18,7 +18,7 @@ const port = process.env.PORT || 8081;
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 app.use("/", router);
 
-server.listen(port, () => {
+app.listen(port, () => {
   console.log(`server listening at  http://localhost:${port}`);
 });
 

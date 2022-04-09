@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import ChatBoxMessage from "./ChatBoxMessage.js";
 import CircularProgress from "@mui/material/CircularProgress";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useEffect } from "react";
 function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const scroll = useRef(null);

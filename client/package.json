@@ -15,6 +15,7 @@
     "crypto-js": "^4.1.1",
     "crypto-random-string": "^4.0.0",
     "emoji-picker-react": "^3.5.1",
+    "lodash": "^4.17.21",
     "material-ui-phone-number": "^3.0.0",
     "md5": "^2.3.0",
     "pusher-js": "^7.0.6",

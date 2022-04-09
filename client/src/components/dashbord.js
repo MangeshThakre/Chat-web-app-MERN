@@ -15,11 +15,9 @@ import EditProfile from "./EditProfile.js";
 import Add from "./add.js";
 import Pusher from "pusher-js";
 import ContactDetail from "./contactDetails";
-import io from "socket.io-client";
 import Picker from "emoji-picker-react";
 import "./dashbord.css";
 import { useParams } from "react-router-dom";
-const ENDPOINT = "http://localhost:8081";
 function Dashbord() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -39,8 +37,6 @@ function Dashbord() {
   const [messageLoading, setMessageLoading] = useState(false);
   const [reloadContactList, setReloadContactlist] = useState(false);
   const [currentMember, setcurrentMember] = useState("");
-
-  var socket;
   //   const TOKEN = useSelector((state) => state.currentUserReducer.token);
   useEffect(() => {
     // Enable pusher logging - don't include this in production
@@ -49,10 +45,18 @@ function Dashbord() {
     var pusher = new Pusher("e9c08f4eba776e45b9af", {
       cluster: "ap2",
     });
-
+    var receivedMessage = {};
     var channel = pusher.subscribe("receive-message");
     channel.bind("inserted", function (data) {
-      alert(JSON.stringify(data));
+      receivedMessage = data.receiveMessage;
+
+      if (Object.keys(receivedMessage).length == 0) return;
+      if (
+        receivedMessage.type === "PRIVATE" &&
+        currentlyChatingWith.roomId.includes(receivedMessage.roomId)
+      ) {
+        setMessages([...messages, receivedMessage]);
+      }
     });
   }, []);
 
@@ -86,8 +90,6 @@ function Dashbord() {
       const data = await response.data;
       dispatch(USER(data));
       setIsLoading(false);
-      // socket.connect();
-      // socket.emit("setup", data);
     } catch (error) {
       console.log("Error", error);
       navigate("/signin");
@@ -201,7 +203,6 @@ function Dashbord() {
               <Sidebar
                 contactList={contactList}
                 setCurrentlyChatingWith={setCurrentlyChatingWith}
-                socket={socket}
               />
             </Grid>
             <Grid item xs={8}>

@@ -20,14 +20,14 @@ function ChatBoxFooter({
   const [text, setText] = useState("");
   var newMessage;
   const send = async () => {
-    newMessage = {
-      roomId,
-      senderId: USERDATA._id,
-      text,
-      created_at: new Date(),
-    };
-    setCurrentChat(text);
-    setMessages([...messages, newMessage]);
+    // newMessage = {
+    //   roomId,
+    //   senderId: USERDATA._id,
+    //   text,
+    //   created_at: new Date(),
+    // };
+    // setCurrentChat(text);
+    // setMessages([...messages, newMessage]);
 
     try {
       const response = await axios({
@@ -37,12 +37,10 @@ function ChatBoxFooter({
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        data: { text, roomId },
+        data: { text, roomId, type: currentlyChatingWith.type },
       });
       const data = await response.data;
       setText("");
-
-      // socket.emit(newMessage, data);
     } catch (error) {
       console.log(error);
     }

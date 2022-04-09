@@ -229,11 +229,13 @@ class codeeditorController {
     const senderId = req.user.id;
     const roomId = req.body.roomId;
     const text = req.body.text;
+    const type = req.body.type;
     try {
       const Chatresponse = new chatModel({
         roomId: roomId,
         senderId: senderId,
         text: text,
+        type,
         created_at: new Date(),
       });
       const result = await Chatresponse.save();
