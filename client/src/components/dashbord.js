@@ -13,7 +13,6 @@ import ChatBox from "./ChatBox.js";
 import ChatBoxFooter from "./ChatBoxFooter.js";
 import EditProfile from "./EditProfile.js";
 import Add from "./add.js";
-import Pusher from "pusher-js";
 import ContactDetail from "./contactDetails";
 import Picker from "emoji-picker-react";
 import "./dashbord.css";
@@ -38,27 +37,6 @@ function Dashbord() {
   const [reloadContactList, setReloadContactlist] = useState(false);
   const [currentMember, setcurrentMember] = useState("");
   //   const TOKEN = useSelector((state) => state.currentUserReducer.token);
-  useEffect(() => {
-    // Enable pusher logging - don't include this in production
-    Pusher.logToConsole = true;
-
-    var pusher = new Pusher("e9c08f4eba776e45b9af", {
-      cluster: "ap2",
-    });
-    var receivedMessage = {};
-    var channel = pusher.subscribe("receive-message");
-    channel.bind("inserted", function (data) {
-      receivedMessage = data.receiveMessage;
-
-      if (Object.keys(receivedMessage).length == 0) return;
-      if (
-        receivedMessage.type === "PRIVATE" &&
-        currentlyChatingWith.roomId.includes(receivedMessage.roomId)
-      ) {
-        setMessages([...messages, receivedMessage]);
-      }
-    });
-  }, []);
 
   const TOKEN = localStorage.getItem("Token");
   if (!localStorage.getItem("Token")) navigate("/signin");
@@ -89,6 +67,7 @@ function Dashbord() {
       });
       const data = await response.data;
       dispatch(USER(data));
+      localStorage.setItem("userId", USERDATA._id);
       setIsLoading(false);
     } catch (error) {
       console.log("Error", error);

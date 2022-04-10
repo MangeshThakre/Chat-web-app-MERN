@@ -4,6 +4,7 @@
     height: 580px;
     width: 285px;
   overflow: scroll;
+  border-radius: 0 10px 10px 0;
   }
 
   .ContactDetailBody{

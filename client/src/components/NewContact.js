@@ -6,6 +6,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useSelector, useDispatch } from "react-redux";
 import md5 from "md5";
+import { IMaskInput } from "react-imask";
+
 import Collapse from "@mui/material/Collapse";
 import Alert from "@mui/material/Alert";
 import { useState, useEffect } from "react";
@@ -16,6 +18,24 @@ import SaveIcon from "@mui/icons-material/Save";
 import Box from "@mui/material/Box";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+
+const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
+  const { onChange, ...other } = props;
+  return (
+    <IMaskInput
+      {...other}
+      mask="(#00) 000-0000"
+      definitions={{
+        "#": /[1-9]/,
+      }}
+      inputRef={ref}
+      onAccept={(value) => onChange({ target: { name: props.name, value } })}
+      overwrite
+    />
+  );
+});
 
 function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
   const dispatch = useDispatch();
@@ -34,6 +54,14 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
   const roomId = md5(phoneNo + "_" + contactPhoneNo);
   dispatch(ROOMID(roomId));
   const addNewContact = async () => {
+    const phone = Number(
+      phoneNo
+        .replace("-", "")
+        .replace(" ", "")
+        .replace(")", "")
+        .replace("(", "")
+    );
+
     setIsLoading(true);
     try {
       const response = await axios({
@@ -43,7 +71,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        data: { contactName, contactPhoneNo, phoneNo },
+        data: { contactName, contactPhoneNo, phoneNo: phone },
       });
       const data = await response.data;
       setContactName("");
@@ -84,6 +112,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
           backgroundColor: "#071a2e",
           color: "white",
           lineHeight: "4",
+          borderRadius: " 10px",
         }}
       >
         <CardContent>
@@ -92,10 +121,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
               required
               id="standard-required"
               label="Name"
-              sx={{ input: { color: "white" } }}
-              InputLabelProps={{
-                style: { color: "#135ba3", borderBlockColor: "white" },
-              }}
+              sx={{ input: { color: "white" }, label: { color: "#1873ce" } }}
               value={contactName}
               variant="standard"
               onChange={(e) => {
@@ -104,21 +130,43 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
               }}
             />
           </div>
-          <TextField
+          {/* <TextField
             id="input-with-sx"
             label="Phone No."
             sx={{ input: { color: "white" } }}
             InputLabelProps={{
               style: { color: "#135ba3" },
             }}
-            maxLength="10"
             variant="standard"
             value={contactPhoneNo}
             onChange={(e) => {
               setContactPhoneNo(e.target.value);
               setShowError(false);
             }}
-          />
+          /> */}
+          <div>
+            <InputLabel
+              sx={{ color: "#1873ce" }}
+              htmlFor="formatted-text-mask-input"
+            >
+              Phone-Number
+            </InputLabel>
+            <Input
+              sx={{
+                input: { color: "white" },
+              }}
+              placeholder="(100) 000-0000"
+              value={contactPhoneNo}
+              onChange={(e) => {
+                setContactPhoneNo(e.target.value);
+                setShowError(false);
+              }}
+              name="textmask"
+              id="formatted-text-mask-input"
+              inputComponent={TextMaskCustom}
+            />
+          </div>
+
           <Button
             disabled={
               (contactName !== "") & (contactPhoneNo !== "") ? false : true

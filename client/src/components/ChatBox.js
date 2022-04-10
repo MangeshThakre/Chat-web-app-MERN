@@ -10,7 +10,7 @@ function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
   const scroll = useRef(null);
   useEffect(() => {
     scroll.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, currentlyChatingWith]);
+  }, [messages, messageLoading]);
 
   const allMessage = messageLoading ? (
     <div>

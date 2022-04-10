@@ -31,6 +31,8 @@ function Add({
           width: "340px",
           backgroundColor: "#001e3c",
           color: "white",
+          borderTopLeftRadius: "10px",
+          WebkitBorderBottomLeftRadius: "10px",
         }}
       >
         <div style={{ height: "80px", width: "340px" }}>

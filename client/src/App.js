@@ -19,9 +19,6 @@ function App() {
             <Route path="/signup" element={<Register />} />
           </Routes>
         </BrowserRouter>
-        ,{/* <Authentication /> */}
-        {/* <Register /> */}
-        {/* <Signin /> */}
       </div>
     </div>
   );

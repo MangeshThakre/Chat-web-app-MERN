@@ -5,7 +5,6 @@ import ListItemText from "@mui/material/ListItemText";
 import ListItemAvatar from "@mui/material/ListItemAvatar";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Avatar from "@mui/material/Avatar";
-import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -59,6 +58,7 @@ function GroupMembers({
                 primary="Add participants"
               />
             </ListItem>
+
             {groupMembers.map((member) => {
               return (
                 <ListItem key={member._id}>
@@ -83,13 +83,6 @@ function GroupMembers({
             })}
           </List>
         </div>
-      </div>
-
-      <div className="leaveGroup">
-        <ListItem button sx={{ color: "red" }}>
-          <ExitToAppIcon />
-          <ListItemText style={{ margin: "10px" }} primary="leave Group" />
-        </ListItem>
       </div>
     </div>
   );

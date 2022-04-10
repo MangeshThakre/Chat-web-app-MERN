@@ -226,6 +226,7 @@ function NewGroup({
           backgroundColor: "#071a2e",
           color: "white",
           lineHeight: "4",
+          borderRadius: " 10px",
         }}
       >
         <CardContent>{preNext == "next" ? pre : next}</CardContent>

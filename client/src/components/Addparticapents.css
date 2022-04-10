@@ -4,7 +4,9 @@ color:white;
 height: 580px;
 width: 285px;
 overflow: scroll;
-position: relative
+position: relative;
+border-radius: 0 10px 10px 0;
+
 }
 
 .AddparticapentsHeader{

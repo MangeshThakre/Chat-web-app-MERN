@@ -14,17 +14,15 @@ class codeeditorController {
 
   static register = async (req, res) => {
     try {
-      const firstName = req.body.firstName;
-      const lastName = req.body.lastName;
+      const userName = req.body.userName;
       const phoneNo = req.body.phoneNo;
       const password = req.body.password;
-      const gender = req.body.gender;
+      const email = req.body.email;
       const saveUserInfo = new userModel({
-        firstName: firstName,
-        lastName: lastName,
+        userName: userName,
         phoneNo: phoneNo,
         password: password,
-        gender: gender,
+        email: email,
       });
       const result = await saveUserInfo.save();
       res.send({
@@ -41,7 +39,6 @@ class codeeditorController {
   };
 
   static signin = async (req, res) => {
-    console.log(req.body);
     if (req.body.phoneNo) {
       try {
         const response = await userModel.findOne({

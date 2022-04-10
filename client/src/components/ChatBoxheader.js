@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
+import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 function ChatBoxheader({ currentlyChatingWith, setContactDetailToggle }) {
   let { roomId } = useParams();
   const navigate = useNavigate();
@@ -34,19 +35,22 @@ function ChatBoxheader({ currentlyChatingWith, setContactDetailToggle }) {
             <h5>{currentlyChatingWith.name}</h5>
             <p>{currentlyChatingWith.phoneNo}</p>
           </div>
-          <button
-            onClick={() => {
-              setContactDetailToggle(true);
-            }}
-          >
-            {" "}
-          </button>
         </div>
       ) : (
         ""
       )}
 
       <div className="logout">
+        {currentlyChatingWith.length !== 0 ? (
+          <IconButton
+            style={{ color: "white" }}
+            onClick={() => {
+              setContactDetailToggle(true);
+            }}
+          >
+            <ManageAccountsOutlinedIcon />
+          </IconButton>
+        ) : null}
         <IconButton
           style={{ color: "white" }}
           onClick={() => {

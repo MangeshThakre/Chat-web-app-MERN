@@ -12,7 +12,9 @@ import Avatar from "@mui/material/Avatar";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import "./Addparticapents.css";
 import { useState } from "react";
+import MuiAlert from "@mui/material/Alert";
 import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
 const TOKEN = localStorage.getItem("Token");
 
 function Addparticapents({
@@ -23,7 +25,16 @@ function Addparticapents({
   setCurrentlyChatingWith,
   setReloadContactlist,
 }) {
+  const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState([]);
+
+  const Alert = React.forwardRef(function Alert(props, ref) {
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+  });
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   if (currentMember !== currentlyChatingWith._id)
     setaddParticapentsToggle(false);
@@ -64,8 +75,10 @@ function Addparticapents({
       },
     });
     const data = await response.data;
+
     setCurrentlyChatingWith(data);
     setReloadContactlist(true);
+    setOpen(true);
   };
 
   return (
@@ -128,6 +141,11 @@ function Addparticapents({
           })}
         </List>
       </>
+      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
+          successfuly added
+        </Alert>
+      </Snackbar>
       <div className=" AddparticapentsFooter">
         <IconButton
           button

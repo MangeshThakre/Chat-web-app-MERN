@@ -41,7 +41,6 @@ function Signin() {
       } else {
         localStorage.setItem("Token", responseData);
         dispatch(TOKEN(responseData));
-
         setphoneNo("");
         setPassword("");
         navigate("/");
@@ -50,12 +49,19 @@ function Signin() {
       console.log(error);
     }
   }
+  const style = { margin: "10px  0" };
   return (
     <div>
-      <Card>
+      <Card
+        sx={{
+          backgroundColor: "#001e3c",
+          borderRadius: "10px",
+        }}
+      >
         <CardContent>
-          <div>
+          <div style={style}>
             <TextField
+              sx={{ input: { color: "#1873ce" }, label: { color: "#1873ce" } }}
               error={warning}
               id="filled-error-helper-text"
               label="Phone no. or Email"
@@ -69,14 +75,15 @@ function Signin() {
               }}
             />
           </div>
-          <div>
+          <div style={style}>
             <TextField
               error={warning}
+              sx={{ input: { color: "#1873ce" }, label: { color: "#1873ce" } }}
               id="filled-error-helper-text"
               label="Password"
               type="password"
               defaultValue={password}
-              placeholder="password"
+              placeholder="******"
               autoComplete="false"
               variant="filled"
               onChange={(e) => {
@@ -86,13 +93,14 @@ function Signin() {
             />
           </div>
           <Button
+            // style={{ color: "white" }}
             variant=""
             disabled={(phoneNo !== "") & (password !== "") ? false : true}
             onClick={signIn}
           >
             Sign in
           </Button>
-          <div>
+          <div style={{ color: "white" }}>
             <p>
               Create a new account
               <Link to="/signup">
