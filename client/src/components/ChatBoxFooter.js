@@ -59,17 +59,19 @@ function ChatBoxFooter({
     var channel = pusher.subscribe("receive-message");
     channel.bind("inserted", function (data) {
       receivedMessage = data.receiveMessage;
-      // if (Object.keys(currentlyChatingWith).length == 0) return;
-      if (Object.keys(receivedMessage).length == 0) return;
       if (
         receivedMessage.type === "PRIVATE" &&
-        roomId == receivedMessage.roomId &&
+        roomId === receivedMessage.roomId &&
         localStorage.getItem("userId") !== receivedMessage.senderId
       ) {
         setMessages([...messages, receivedMessage]);
       }
     });
-  }, []);
+    return () => {
+      channel.unbind_all();
+      channel.unsubscribe();
+    };
+  }, [messages]);
 
   return (
     <div className="chatboxFooter">
