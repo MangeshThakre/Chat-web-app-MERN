@@ -7,14 +7,49 @@ import contact from "../img/contact.jpg";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import CommanMember from "./commanMember";
+import axios from "axios";
 function ContactDetail({
   setContactDetailToggle,
   contactDetailToggle,
   currentlyChatingWith,
   setaddParticapentsToggle,
   setcurrentMember,
+  contactList,
+  setCurrentlyChatingWith,
+  setReloadContactlist,
+  setCrossOpen,
 }) {
-  const upload = () => {};
+  const TOKEN = localStorage.getItem("Token");
+
+  const upload = async (e) => {
+    const image = e.target.files[0];
+    const formData = new FormData();
+    formData.append("avatar", image);
+    formData.append("ID", currentlyChatingWith._id);
+
+    try {
+      const response = await axios({
+        method: "post",
+        url: "http://localhost:8081/updateimage",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        data: formData,
+      });
+      const data = await response.data;
+      setReloadContactlist(true);
+      setCurrentlyChatingWith(data);
+    } catch (error) {
+      console.log("err", error);
+    }
+  };
+
+  const handelLeaveGroup = () => {
+    setCrossOpen(true);
+  };
+
   return (
     <div className="ContactDetail">
       <div className="ContactDetailHeader">
@@ -74,7 +109,10 @@ function ContactDetail({
         <div className="otherInfo">
           <>
             {currentlyChatingWith.type == "PRIVATE" ? (
-              <div className="comman">comman </div>
+              <CommanMember
+                contactList={contactList}
+                contactID={currentlyChatingWith.contactID}
+              />
             ) : (
               <GroupMembers
                 currentlyChatingWith={currentlyChatingWith}
@@ -87,7 +125,11 @@ function ContactDetail({
       </div>
       {currentlyChatingWith.type == "GROUP" ? (
         <div className="leaveGroup" style={{ position: "sticky", bottom: "0" }}>
-          <ListItem button sx={{ color: "red" }}>
+          <ListItem
+            onClick={() => handelLeaveGroup()}
+            button
+            sx={{ color: "red" }}
+          >
             <ExitToAppIcon />
             <ListItemText style={{ margin: "10px" }} primary="leave Group" />
           </ListItem>

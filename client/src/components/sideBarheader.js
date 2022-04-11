@@ -7,8 +7,7 @@ import IconButton from "@mui/material/IconButton";
 import LogoutIcon from "@mui/icons-material/Logout";
 function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
-  const userName =
-    USERDATA != null ? USERDATA.firstName + " " + USERDATA.lastName : "null";
+  const userName = USERDATA != null ? USERDATA.userName : "null";
   const phoneNo = USERDATA != null ? USERDATA.phoneNo : "null";
 
   return (

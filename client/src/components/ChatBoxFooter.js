@@ -8,6 +8,7 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import Box from "@mui/material/Box";
 import Pusher from "pusher-js";
+import IconButton from "@mui/material/IconButton";
 
 function ChatBoxFooter({
   setMessages,
@@ -65,6 +66,12 @@ function ChatBoxFooter({
         localStorage.getItem("userId") !== receivedMessage.senderId
       ) {
         setMessages([...messages, receivedMessage]);
+      } else if (
+        receivedMessage.type === "GROUP" &&
+        roomId === receivedMessage.roomId &&
+        localStorage.getItem("userId") !== receivedMessage.senderId
+      ) {
+        setMessages([...messages, receivedMessage]);
       }
     });
     return () => {
@@ -92,11 +99,15 @@ function ChatBoxFooter({
               />
             </div>
           </Box>
-          <SendIcon
+          <IconButton
             onClick={() => {
               if (text !== "") send();
             }}
-          />
+            button
+            sx={{ color: "white" }}
+          >
+            <SendIcon />
+          </IconButton>
         </>
       ) : null}
     </div>

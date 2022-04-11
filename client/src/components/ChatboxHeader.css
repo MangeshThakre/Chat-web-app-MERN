@@ -12,6 +12,7 @@
     display: flex;
     align-items: center;
     margin: 6px;
+    border-left: 2px solid;
 
 }
 .currentContactInfo > p  {

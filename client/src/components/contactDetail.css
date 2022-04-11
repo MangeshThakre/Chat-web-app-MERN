@@ -36,9 +36,25 @@
     height: 100px;
     width: 100px;
     border-radius: 51%;
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
   }
+  .LeaveImg{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90px;
+    position: relative;
+  }
+
   
+
+  .LeaveImg >img{
+    object-fit: cover;
+    height: 100px;
+    width: 100px;
+    border-radius: 51%;
+  }
+
   .edit{
     color: white;
   position: absolute;
@@ -72,3 +88,8 @@ line-height: 4px;
     background-color:#071a2e;
 margin-top: 5px;
   }
+
+.commanMember{
+  background-color:#071a2e;
+
+}

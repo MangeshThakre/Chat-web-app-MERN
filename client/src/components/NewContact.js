@@ -55,7 +55,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
   dispatch(ROOMID(roomId));
   const addNewContact = async () => {
     const phone = Number(
-      phoneNo
+      contactPhoneNo
         .replace("-", "")
         .replace(" ", "")
         .replace(")", "")
@@ -71,7 +71,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        data: { contactName, contactPhoneNo, phoneNo: phone },
+        data: { contactName, contactPhoneNo: phone, phoneNo },
       });
       const data = await response.data;
       setContactName("");

@@ -77,7 +77,7 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
             </div>
             <div>
               <p>Name</p>
-              <h3>{USERDATA.firstName}</h3>
+              <h3>{USERDATA.userName}</h3>
               <p>
                 This is not your or pin. This name will be visible to your
                 chatApp contact.

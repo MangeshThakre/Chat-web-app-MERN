@@ -204,19 +204,26 @@ class codeeditorController {
   static updateimage = async (req, res) => {
     const path = req.file.path;
     const userId = req.user.id;
+    const ID = req.body.ID ? req.body.ID : null;
     const userPhoneNo = req.body.userPhoneNo;
-    console.log(path);
     try {
-      const updateUserPic = await userModel.findByIdAndUpdate(userId, {
-        profilePic: path,
-      });
-      const userInContacts = await contactModel.findOneAndUpdate(
-        { phoneNo: userPhoneNo },
-        { profilePic: path }
-      );
-
-      const updatedUser = await userModel.findById(userId);
-      res.json(updatedUser);
+      if (ID) {
+        const h = await contactModel.findByIdAndUpdate(ID, {
+          profilePic: path,
+        });
+        const updatedUser = await contactModel.findById(ID);
+        res.json(updatedUser);
+      } else {
+        const updateUserPic = await userModel.findByIdAndUpdate(userId, {
+          profilePic: path,
+        });
+        const userInContacts = await contactModel.findOneAndUpdate(
+          { phoneNo: userPhoneNo },
+          { profilePic: path }
+        );
+        const updatedUser = await userModel.findById(userId);
+        res.json(updatedUser);
+      }
     } catch (error) {
       console.log("error", error);
     }

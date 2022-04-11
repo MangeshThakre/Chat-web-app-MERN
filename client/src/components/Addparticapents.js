@@ -89,7 +89,7 @@ function Addparticapents({
             <ArrowBackIcon onClick={() => setaddParticapentsToggle(false)} />
           </IconButton>
         </span>
-        <div>
+        <div style={{ marginLeft: "28px" }}>
           <h3>{currentlyChatingWith.name}</h3>
 
           <p>Add Particapants</p>
