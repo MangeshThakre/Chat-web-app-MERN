@@ -4,7 +4,12 @@ import { useSelector } from "react-redux";
 import ChatBoxMessage from "./ChatBoxMessage.js";
 import bj from "../img/bj.png";
 import { useRef, useEffect } from "react";
-function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
+function ChatBox({
+  currentlyChatingWith,
+  contactList,
+  messages,
+  messageLoading,
+}) {
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const scroll = useRef(null);
   useEffect(() => {
@@ -12,7 +17,7 @@ function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
   }, [messages, messageLoading]);
 
   const allMessage = (
-    <div className ="chatimage" >
+    <div className="chatimage">
       {messageLoading ? (
         <div>
           <div className="loading">Fetching....</div>
@@ -23,7 +28,9 @@ function ChatBox({ currentlyChatingWith, messages, messageLoading }) {
             return (
               <ChatBoxMessage
                 key={index}
+                message={message}
                 currentlyChatingWith={currentlyChatingWith}
+                contactList={contactList}
                 person={
                   USERDATA._id == message.senderId ? "sender" : "receiver"
                 }

@@ -13,6 +13,8 @@ import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import "./editProfile.css";
 function EditProfile({ toggle, setToggle, USERDATA }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   const TOKEN = localStorage.getItem("Token");
   const dispatch = useDispatch();
 
@@ -26,7 +28,7 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/updateimage",
+        url: URL + "/updateimage",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -53,7 +55,7 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
       <div>
         <div className="userImg">
           <img
-            src={USERDATA ? `http://localhost:8081/` + USERDATA.profilePic : ""}
+            src={USERDATA ? URL + `/` + USERDATA.profilePic : ""}
             alt="img"
           />
 

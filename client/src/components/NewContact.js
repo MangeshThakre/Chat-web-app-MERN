@@ -38,6 +38,8 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
 });
 
 function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -50,23 +52,22 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
   const TOKEN = localStorage.getItem("Token");
 
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
+  const phone = Number(
+    contactPhoneNo
+      .replace("-", "")
+      .replace(" ", "")
+      .replace(")", "")
+      .replace("(", "")
+  );
   const phoneNo = USERDATA.phoneNo;
-  const roomId = md5(phoneNo + "_" + contactPhoneNo);
+  const roomId = md5(phoneNo + "_" + phone);
   dispatch(ROOMID(roomId));
   const addNewContact = async () => {
-    const phone = Number(
-      contactPhoneNo
-        .replace("-", "")
-        .replace(" ", "")
-        .replace(")", "")
-        .replace("(", "")
-    );
-
     setIsLoading(true);
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/newContact",
+        url: URL + `/newContact`,
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -74,6 +75,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
         data: { contactName, contactPhoneNo: phone, phoneNo },
       });
       const data = await response.data;
+      console.log(data);
       setContactName("");
       setContactPhoneNo("");
       setReloadContactlist(true);
@@ -130,20 +132,7 @@ function NewContact({ setCurrentlyChatingWith, setReloadContactlist }) {
               }}
             />
           </div>
-          {/* <TextField
-            id="input-with-sx"
-            label="Phone No."
-            sx={{ input: { color: "white" } }}
-            InputLabelProps={{
-              style: { color: "#135ba3" },
-            }}
-            variant="standard"
-            value={contactPhoneNo}
-            onChange={(e) => {
-              setContactPhoneNo(e.target.value);
-              setShowError(false);
-            }}
-          /> */}
+
           <div>
             <InputLabel
               sx={{ color: "#1873ce" }}

@@ -13,11 +13,19 @@ class codeeditorController {
   };
 
   static register = async (req, res) => {
+    const userName = req.body.userName;
+    const phoneNo = req.body.phoneNo;
+    const password = req.body.password;
+    const email = req.body.email;
     try {
-      const userName = req.body.userName;
-      const phoneNo = req.body.phoneNo;
-      const password = req.body.password;
-      const email = req.body.email;
+      const emailExist = await userModel.findOne({ email });
+      if (emailExist !== null)
+        return res.send({ status: 200, result: "email already exist" });
+
+      const phoneNoExist = await userModel.findOne({ phoneNo });
+      if (phoneNoExist !== null)
+        return res.send({ status: 200, result: "phoneNo exist" });
+
       const saveUserInfo = new userModel({
         userName: userName,
         phoneNo: phoneNo,
@@ -54,7 +62,7 @@ class codeeditorController {
         } else res.send({ Token: "invalid" });
       } catch (error) {
         console.log(error);
-        res.send({ Error: error });
+        res.send({ error });
       }
     } else if (req.body.email) {
       try {
@@ -81,8 +89,10 @@ class codeeditorController {
     try {
       const user_id = req.user.id;
       const response = await userModel.findById(user_id);
+      console.log(response);
       res.json(response);
     } catch (error) {
+      console.log("error:", error);
       res.send({ statu: 401, error });
     }
   };
@@ -231,6 +241,7 @@ class codeeditorController {
 
   static message = async (req, res) => {
     const senderId = req.user.id;
+    const senderPhoneNo = req.body.senderPhoneNo;
     const roomId = req.body.roomId;
     const text = req.body.text;
     const type = req.body.type;
@@ -238,6 +249,7 @@ class codeeditorController {
       const Chatresponse = new chatModel({
         roomId: roomId,
         senderId: senderId,
+        senderPhoneNo,
         text: text,
         type,
         created_at: new Date(),
@@ -303,6 +315,21 @@ class codeeditorController {
     } catch (error) {
       console.log(error);
       res.sendStatus(500);
+    }
+  };
+
+  static leavgroup = async (req, res) => {
+    const groupid = req.body.groupid;
+    const userIDs = req.body.userIDs;
+    try {
+      const response = await contactModel.findByIdAndUpdate(groupidk, {
+        userIDs,
+      });
+      res.json(response);
+      console.log(response);
+    } catch (error) {
+      res.json(500);
+      console.log("error", error);
     }
   };
 }

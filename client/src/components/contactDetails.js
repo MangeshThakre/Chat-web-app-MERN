@@ -21,6 +21,7 @@ function ContactDetail({
   setCrossOpen,
 }) {
   const TOKEN = localStorage.getItem("Token");
+  const URL = process.env.REACT_APP_API_URL;
 
   const upload = async (e) => {
     const image = e.target.files[0];
@@ -31,7 +32,7 @@ function ContactDetail({
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/updateimage",
+        url: URL + "/updateimage",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -67,7 +68,7 @@ function ContactDetail({
           <img
             src={
               currentlyChatingWith?.profilePic
-                ? `http://localhost:8081/` + currentlyChatingWith.profilePic
+                ? URL + `/` + currentlyChatingWith.profilePic
                 : contact
             }
             alt="img"

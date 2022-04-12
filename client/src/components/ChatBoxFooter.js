@@ -18,6 +18,8 @@ function ChatBoxFooter({
 }) {
   const TOKEN = localStorage.getItem("Token");
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
+  const URL = process.env.REACT_APP_API_URL;
+
   let { roomId } = useParams();
   const [text, setText] = useState("");
   var newMessage;
@@ -33,12 +35,17 @@ function ChatBoxFooter({
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/message",
+        url: URL + "/message",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
         },
-        data: { text, roomId, type: currentlyChatingWith.type },
+        data: {
+          text,
+          roomId,
+          senderPhoneNo: USERDATA.phoneNo,
+          type: currentlyChatingWith.type,
+        },
       });
       const data = await response.data;
       await setMessages([...messages, newMessage]);

@@ -43,10 +43,12 @@ function Dashbord({ crossOpen, setCrossOpen }) {
   const [currentMember, setcurrentMember] = useState("");
   //   const TOKEN = useSelector((state) => state.currentUserReducer.token);
   const TOKEN = localStorage.getItem("Token");
+  const URL = process.env.REACT_APP_API_URL;
   if (!localStorage.getItem("Token")) navigate("/signin");
 
   useEffect(() => {
     navigate("/");
+    if (USERDATA) localStorage.setItem("userId", USERDATA._id);
   }, []);
 
   useEffect(() => {
@@ -63,7 +65,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
     try {
       const response = await axios({
         method: "get",
-        url: "http://localhost:8081/verify",
+        url: URL + "/verify",
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -71,7 +73,6 @@ function Dashbord({ crossOpen, setCrossOpen }) {
       });
       const data = await response.data;
       dispatch(USER(data));
-      localStorage.setItem("userId", USERDATA._id);
       setIsLoading(false);
     } catch (error) {
       console.log("Error", error);
@@ -83,7 +84,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
     try {
       const response = await axios({
         method: "get",
-        url: "http://localhost:8081/contactList",
+        url: URL + "/contactList",
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -101,7 +102,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
       setMessageLoading(true);
       const messagess = await axios({
         method: "get",
-        url: `http://localhost:8081/getMessage/${roomId}`,
+        url: URL + `/getMessage/${roomId}`,
         headers: {
           "Content-type": "appllication/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -117,13 +118,28 @@ function Dashbord({ crossOpen, setCrossOpen }) {
     setChosenEmoji(emojiObject);
   };
 
-  const handelExit = () => {
+  const handelExit = async () => {
     setContactDetailToggle(false);
     setCrossOpen(false);
+    const userIDs = currentlyChatingWith.userIDs.filter(
+      (e) => e !== USERDATA._id
+    );
+    try {
+      const response = await axios({
+        method: "post",
+        url: URL + "/leavgroup",
+        headers: {
+          "Content-type": "applinction/json",
+          Authorization: `Bearer ${TOKEN}`,
+        },
+        data: { groupid: currentlyChatingWith._id, userIDs },
+      });
+    } catch (error) {
+      console.log(error);
+    }
     navigate("/");
     setCurrentlyChatingWith([]);
   };
-
   return (
     <div>
       <div style={{ position: "relative" }}>
@@ -154,8 +170,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
                 <img
                   src={
                     currentlyChatingWith?.profilePic
-                      ? `http://localhost:8081/` +
-                        currentlyChatingWith.profilePic
+                      ? URL + currentlyChatingWith.profilePic
                       : contact
                   }
                   alt="img"
@@ -263,6 +278,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
                   currentlyChatingWith={currentlyChatingWith}
                   messages={messages}
                   messageLoading={messageLoading}
+                  contactList={contactList}
                 />
                 <div className="emojyPicker">
                   {toggleEmojy ? (

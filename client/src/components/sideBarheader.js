@@ -6,6 +6,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import LogoutIcon from "@mui/icons-material/Logout";
 function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const userName = USERDATA != null ? USERDATA.userName : "null";
   const phoneNo = USERDATA != null ? USERDATA.phoneNo : "null";
@@ -21,7 +23,7 @@ function SideBarheader({ toggle, setToggle, addToggle, setAddToggle }) {
         >
           <Avatar
             alt={userName}
-            src={USERDATA ? "http://localhost:8081/" + USERDATA.profilePic : ""}
+            src={USERDATA ? URL + "/" + USERDATA.profilePic : ""}
           />
 
           <div className="userInfo">

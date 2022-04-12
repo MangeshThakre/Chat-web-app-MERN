@@ -6,6 +6,9 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
 function CommanMember({ contactList, contactID }) {
+
+  const URL = process.env.REACT_APP_API_URL;
+
   const group = contactList.filter(
     (e) => e.type == "GROUP" && e.userIDs.includes(contactID)
   );
@@ -24,11 +27,7 @@ function CommanMember({ contactList, contactID }) {
               <ListItemAvatar>
                 <Avatar
                   alt="name"
-                  src={
-                    e?.profilePic
-                      ? "http://localhost:8081/" + e?.profilePic
-                      : null
-                  }
+                  src={e?.profilePic ? URL + "/" + e?.profilePic : null}
                 />
               </ListItemAvatar>
               <ListItemText style={{ margin: "10px" }} primary={e.name} />

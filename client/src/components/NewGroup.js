@@ -26,6 +26,7 @@ function NewGroup({
   setCurrentlyChatingWith,
   setReloadContactlist,
 }) {
+  const URL = process.env.REACT_APP_API_URL;
 
   var contactOnly = [];
   for (const e of contactList) {
@@ -74,7 +75,7 @@ function NewGroup({
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/newgroup",
+        url: URL + "/newgroup",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -126,11 +127,7 @@ function NewGroup({
                 <ListItemAvatar>
                   <Avatar
                     alt={`Avatar n°${value + 1}`}
-                    src={
-                      value.profilePic
-                        ? `http://localhost:8081/${value.profilePic}`
-                        : ""
-                    }
+                    src={value.profilePic ? URL + `/${value.profilePic}` : ""}
                   />
                 </ListItemAvatar>
                 <ListItemText id={labelId} primary={value.name} />

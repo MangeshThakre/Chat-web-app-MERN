@@ -8,6 +8,8 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import ManageAccountsOutlinedIcon from "@mui/icons-material/ManageAccountsOutlined";
 function ChatBoxheader({ currentlyChatingWith, setContactDetailToggle }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   let { roomId } = useParams();
   const navigate = useNavigate();
 
@@ -25,7 +27,7 @@ function ChatBoxheader({ currentlyChatingWith, setContactDetailToggle }) {
               alt={currentlyChatingWith.name}
               src={
                 currentlyChatingWith?.profilePic
-                  ? "http://localhost:8081/" + currentlyChatingWith.profilePic
+                  ? URL + "/" + currentlyChatingWith.profilePic
                   : null
               }
             />

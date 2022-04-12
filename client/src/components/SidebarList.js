@@ -12,6 +12,8 @@ import { useNavigate } from "react-router-dom";
 import md5 from "md5";
 
 function SidebarList({ contact, setCurrentlyChatingWith }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   const navigate = useNavigate();
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const phoneNo = USERDATA.phoneNo;
@@ -43,11 +45,7 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
           <ListItemAvatar>
             <Avatar
               alt={contact.name}
-              src={
-                contact.profilePic
-                  ? "http://localhost:8081/" + contact.profilePic
-                  : null
-              }
+              src={contact.profilePic ? URL + "/" + contact.profilePic : null}
             />
           </ListItemAvatar>
           <ListItemText style={{ margin: "10px" }} primary={contact.name} />

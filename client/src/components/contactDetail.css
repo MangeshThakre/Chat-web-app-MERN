@@ -4,13 +4,23 @@
     height: 580px;
     width: 285px;
   overflow: scroll;
+ -ms-overflow-style: none;
+
   border-radius: 0 10px 10px 0;
+  }
+  .ContactDetail::-webkit-scrollbar {
+    display: none;
   }
 
   .ContactDetailBody{
     overflow-x: scroll;
+ -ms-overflow-style: none;
+
   }
   
+  .ContactDetailBody::-webkit-scrollbar {
+    display: none;
+  }
   .ContactDetailHeader{
       display: flex;
       align-items: center;
@@ -78,8 +88,14 @@ line-height: 4px;
   }
   .otherInfo{
     width: 100%;
+ -ms-overflow-style: none;
+
+   
   }
   
+  .otherInfo::-webkit-scrollbar {
+    display: none;
+  }
   .GroupMembers{
     background-color:#071a2e;
   }

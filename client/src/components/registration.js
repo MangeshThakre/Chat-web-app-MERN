@@ -11,6 +11,8 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { IMaskInput } from "react-imask";
 import { containerClasses } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
   const { onChange, ...other } = props;
@@ -29,17 +31,21 @@ const TextMaskCustom = React.forwardRef(function TextMaskCustom(props, ref) {
 });
 
 function Register() {
-  const APP_URL = process.env.URL;
+  const navigate = useNavigate();
+
+  const URL = process.env.REACT_APP_API_URL;
+
   const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNo, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
   const [conformPassword, setConformPassword] = useState("");
+  const [PhoneNoerror, setPhoneNoError] = useState(false);
+  const [emailError, setEamilError] = useState(false);
   const [error, setError] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [emailInput, setEmailInput] = useState();
   const submit = async () => {
-    password === conformPassword ? setError(false) : setError(true);
-
     const phone = Number(
       phoneNo
         .replace("-", "")
@@ -47,17 +53,35 @@ function Register() {
         .replace(")", "")
         .replace("(", "")
     );
-
-    try {
-      const response = await axios({
-        method: "post",
-        url: "http://localhost:8081/register",
-        header: { "Content-type ": "application/json " },
-        data: { userName, email, phoneNo: phone, password },
-      });
-      console.log(response);
-    } catch (error) {
-      console.log("error ", error);
+    if (!email.includes("@gmail.com")) {
+      setEamilError(true);
+      setEmailInput("invalid");
+    } else if (password !== conformPassword) {
+      setError(true);
+    } else {
+      try {
+        setIsLoading(true);
+        const response = await axios({
+          method: "post",
+          url: URL + "/register",
+          header: { "Content-type ": "application/json " },
+          data: { userName, email, phoneNo: phone, password },
+        });
+        const data = response.data;
+        if (data.result == "email already exist") {
+          setEamilError(true);
+          setEmailInput("already exist");
+        }
+        if (data.result == "phoneNo exist") {
+          setPhoneNoError(true);
+        }
+        if (data.result?.email) {
+          navigate("/signin");
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log("error ", error);
+      }
     }
   };
   const style = { margin: "10px  0" };
@@ -97,17 +121,19 @@ function Register() {
                     label: { color: "#1873ce" },
                     margin: "10px  0",
                   }}
-                  error={false}
-                  id="filled-error-helper-text"
-                  label=" Email"
-                  defaultValue={email}
-                  maximun=""
-                  placeholder="test@gmail.com"
+                  error={emailError}
+                  label="Email"
+                  id="email"
+                  name="email"
                   type="email"
-                  autoComplete="false"
+                  helperText={emailInput}
+                  defaultValue={email}
+                  placeholder="test@gmail.com"
+                  autoComplete="email"
                   variant="standard"
                   onChange={(e) => {
                     setEmail(e.target.value);
+                    setEamilError(false);
                   }}
                 />
               </div>
@@ -119,6 +145,8 @@ function Register() {
                   Phone-Number
                 </InputLabel>
                 <Input
+                  error={PhoneNoerror}
+                  helperText="error"
                   variant="filled"
                   sx={{
                     input: { color: "white" },
@@ -126,6 +154,7 @@ function Register() {
                   value={phoneNo}
                   onChange={(e) => {
                     setPhoneNo(e.target.value);
+                    setPhoneNoError(false);
                   }}
                   placeholder="(100) 000-0000"
                   name="textmask"
@@ -140,7 +169,7 @@ function Register() {
                     label: { color: "#1873ce" },
                     margin: "10px  0",
                   }}
-                  //   error={error}
+                  error={error}
                   id="filled-error-helper-text"
                   label="Password"
                   type="password"
@@ -150,6 +179,7 @@ function Register() {
                   variant="standard"
                   onChange={(e) => {
                     setPassword(e.target.value);
+                    setError(false);
                   }}
                 />
               </div>
@@ -170,15 +200,17 @@ function Register() {
                   variant="standard"
                   onChange={(e) => {
                     setConformPassword(e.target.value);
+                    setError(false);
                   }}
                 />
               </div>
               <Button
-                variant=""
+                variant="outlined"
+                color="primary"
                 disabled={
                   (userName !== "") &
                   (email !== "") &
-                  (phoneNo !== "") &
+                  (phoneNo.length >= 14) &
                   (password !== "") &
                   (conformPassword !== "")
                     ? false
@@ -198,6 +230,9 @@ function Register() {
                 <Button>Sign in</Button>
               </Link>
             </p>
+          </div>
+          <div style={{ float: "right" }}>
+            {isLoading ? <CircularProgress /> : " "}
           </div>
         </CardContent>
       </Card>

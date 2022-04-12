@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { TOKEN } from "../redux/reduxToken/currentUserSplice.js";
 function Signin() {
+  const URL = process.env.REACT_APP_API_URL;
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [phoneNo, setphoneNo] = useState("");
@@ -31,7 +33,7 @@ function Signin() {
     try {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/signin",
+        url: URL + "/signin",
         header: { "content-type": "application/jsn" },
         data: data,
       });

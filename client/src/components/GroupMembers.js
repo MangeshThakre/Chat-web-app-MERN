@@ -17,6 +17,8 @@ function GroupMembers({
   setaddParticapentsToggle,
   setcurrentMember,
 }) {
+  const URL = process.env.REACT_APP_API_URL;
+
   const [isLoading, setIsloading] = useState(false);
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
   const [groupMembers, setGroutMembers] = useState([]);
@@ -26,7 +28,7 @@ function GroupMembers({
     async function allMembers() {
       const response = await axios({
         method: "post",
-        url: "http://localhost:8081/allMembers",
+        url: URL + "/allMembers",
         headers: {
           "Content-type": "application/json",
           Authorization: `Bearer ${TOKEN}`,
@@ -47,16 +49,12 @@ function GroupMembers({
         <ListItemAvatar>
           <Avatar
             alt="name"
-            src={
-              member?.profilePic
-                ? "http://localhost:8081/" + member?.profilePic
-                : null
-            }
+            src={member?.profilePic ? URL + "/" + member?.profilePic : null}
           />
         </ListItemAvatar>
         <ListItemText
           style={{ margin: "10px" }}
-          primary={USERDATA._id == member._id ? "You" : member.firstName}
+          primary={USERDATA._id == member._id ? "You" : member.userName}
         />
       </ListItem>
     );

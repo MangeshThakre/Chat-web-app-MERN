@@ -39,6 +39,9 @@ router.get("/getMessage/:roomId", Authorization, index.getMessage);
 router.post("/allMembers", Authorization, index.allMembers);
 
 router.post("/addgroupmember", Authorization, index.addgroupmember);
+
+router.post("/leavgroup", Authorization, index.leavgroup);
+
 router.post(
   "/newgroup",
   Authorization,

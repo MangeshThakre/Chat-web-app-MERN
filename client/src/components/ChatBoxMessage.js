@@ -4,20 +4,43 @@ import { useSelector } from "react-redux";
 import { format } from "timeago.js";
 import { useState } from "react";
 import { padding } from "@mui/system";
-function CnatBoxMessage({ person, currentlyChatingWith, created_at, text }) {
+function CnatBoxMessage({
+  person,
+  currentlyChatingWith,
+  contactList,
+  created_at,
+  text,
+  message,
+}) {
   var name;
-
+  const URL = process.env.REACT_APP_API_URL;
   var messagePic;
   const USERDATA = useSelector((state) => state.currentUserReducer.user);
-  if (person == "sender") {
-    name = USERDATA.firstName;
-    messagePic = "http://localhost:8081/" + USERDATA.profilePic;
-  } else if (person == "receiver") {
-    name = currentlyChatingWith.name;
-    messagePic = currentlyChatingWith.profilePic
-      ? "http://localhost:8081/" + currentlyChatingWith.profilePic
-      : "";
+  if (message.type == "GROUP") {
+    if (person == "receiver") {
+      const groupMember = contactList.find(
+        (e) => e.contactID == message.senderId
+      );
+      name = groupMember ? groupMember.name : message.senderPhoneNo;
+      messagePic = groupMember?.profilePic
+        ? URL + "/" + groupMember.profilePic
+        : null;
+    } else if (person == "sender") {
+      name = USERDATA.userName;
+      messagePic = URL + "/" + USERDATA.profilePic;
+    }
+  } else if (message.type == "PRIVATE") {
+    if (person == "sender") {
+      name = USERDATA.userName;
+      messagePic = URL + "/" + USERDATA.profilePic;
+    } else if (person == "receiver") {
+      name = currentlyChatingWith.name;
+      messagePic = currentlyChatingWith.profilePic
+        ? URL + "/" + currentlyChatingWith.profilePic
+        : "";
+    }
   }
+
   return (
     <div className={person}>
       <div className="message">

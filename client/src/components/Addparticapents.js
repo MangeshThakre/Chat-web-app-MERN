@@ -27,6 +27,7 @@ function Addparticapents({
 }) {
   const [open, setOpen] = useState(false);
   const [checked, setChecked] = useState([]);
+  const URL = process.env.REACT_APP_API_URL;
 
   const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -64,7 +65,7 @@ function Addparticapents({
     });
     const response = await axios({
       method: "post",
-      url: "http://localhost:8081/addgroupmember",
+      url: URL + "/addgroupmember",
       headers: {
         "Content-type": "application/json",
         Authorization: `Bearer ${TOKEN}`,
@@ -127,11 +128,7 @@ function Addparticapents({
                   <ListItemAvatar>
                     <Avatar
                       alt={`Avatar n°${value + 1}`}
-                      src={
-                        value.profilePic
-                          ? `http://localhost:8081/${value.profilePic}`
-                          : ""
-                      }
+                      src={value.profilePic ? URL + `/${value.profilePic}` : ""}
                     />
                   </ListItemAvatar>
                   <ListItemText id={labelId} primary={value.name} />
