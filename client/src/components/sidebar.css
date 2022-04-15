@@ -1,0 +1,11 @@
+.sidebar{
+    background-color: #001e3c;
+    height: 480px;
+    width: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center; 
+    padding: 10px;
+    border-radius: 0 0 0 10px;
+
+}

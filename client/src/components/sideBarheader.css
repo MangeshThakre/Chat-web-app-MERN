@@ -1,0 +1,28 @@
+.sideBarheader{
+    height: 80px;
+    width : 100%;
+    background-color: #001e3c;
+    border-radius: 10px 0 0 0;
+}
+.header{
+    height: 80px;
+    display: flex;
+    align-items: center;
+   justify-content: space-around;
+}
+
+.userInfobox{
+  cursor: pointer;
+    display :flex;
+    align-items: center;
+}
+.userInfo{
+    margin-left: 20px;
+}
+.userInfo > p{
+    margin :0
+}
+.userInfo > h3{
+    margin :0
+}
+

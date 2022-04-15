@@ -1,0 +1,30 @@
+.Addparticapents{
+background-color: #001e3c;
+color:white;
+height: 580px;
+width: 285px;
+overflow: scroll;
+position: relative;
+border-radius: 0 10px 10px 0;
+
+}
+
+.AddparticapentsHeader{
+    display: flex;
+    align-items: center;
+    height: 100px;
+    padding: 0px 0 0 20px;
+    background-color: #071a2e;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+.AddparticapentsHeader > h3{
+  margin-left: 20px;
+}
+.AddparticapentsFooter{
+  position: absolute;
+  bottom: 10%;
+  right: 10%; 
+  
+}

@@ -1,0 +1,34 @@
+.ChatboxHeader{
+    background-color: #001e3c;
+    height: 80px;
+    width: 100%;
+    display: flex;  
+    align-items: center;
+    justify-content: space-between; 
+    border-top-right-radius: 10px;
+
+}
+.currentContactdetail{
+    display: flex;
+    align-items: center;
+    margin: 6px;
+    border-left: 2px solid;
+
+}
+.currentContactInfo > p  {
+   margin: 0;
+}
+.currentContactInfo > h5 {
+    margin: 0;
+ }
+
+.currentContactImg{
+    margin:   0px 20px 0px 20px;
+}
+
+.logout{
+    padding: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
