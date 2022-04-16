@@ -61,7 +61,7 @@ function ContactDetail({
             />
           </IconButton>
         </span>
-        <h3>Profile</h3>
+        <h3>{currentlyChatingWith.name}</h3>
       </div>
       <div className="ContactDetailBody">
         <div className="userImg">
