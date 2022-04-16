@@ -71,13 +71,13 @@ function ChatBoxFooter({
       if (
         receivedMessage.type === "PRIVATE" &&
         roomId === receivedMessage.roomId &&
-        localStorage.getItem("userId") !== receivedMessage.senderId
+        USERDATA._id !== receivedMessage.senderId
       ) {
         setMessages([...messages, receivedMessage]);
       } else if (
         receivedMessage.type === "GROUP" &&
         roomId === receivedMessage.roomId &&
-        localStorage.getItem("userId") !== receivedMessage.senderId
+        USERDATA._id !== receivedMessage.senderId
       ) {
         setMessages([...messages, receivedMessage]);
       }
