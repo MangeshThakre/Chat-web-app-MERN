@@ -82,7 +82,7 @@ function ChatBoxFooter({
         setMessages([...messages, receivedMessage]);
       }
     });
-    return function cleanup() {
+    return function () {
       channel.unbind_all();
       channel.unsubscribe();
     };
