@@ -44,3 +44,10 @@ align-items: flex-end;
 
   
 }
+
+
+
+.text_message{
+    margin: 2px;
+     word-wrap: break-word ;
+}

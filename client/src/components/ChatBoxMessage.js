@@ -46,7 +46,7 @@ function CnatBoxMessage({
       <div className="message">
         <div>
           <h5 style={{ margin: "2px" }}>{name}</h5>
-          <p style={{ margin: "2px", wordWrap: "breakWord" }}>{text}</p>
+          <p className="text_message">{text}</p>
         </div>
         <div style={{ fontSize: "10px" }}>{format(created_at)}</div>
       </div>
