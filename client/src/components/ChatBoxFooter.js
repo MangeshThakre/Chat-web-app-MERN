@@ -66,22 +66,26 @@ function ChatBoxFooter({
     });
     var receivedMessage = {};
     var channel = pusher.subscribe("receive-message");
-    channel.bind("inserted", function (data) {
-      receivedMessage = data.receiveMessage;
-      if (
-        receivedMessage.type === "PRIVATE" &&
-        roomId === receivedMessage.roomId &&
-        USERDATA._id !== receivedMessage.senderId
-      ) {
-        setMessages([...messages, receivedMessage]);
-      } else if (
-        receivedMessage.type === "GROUP" &&
-        roomId === receivedMessage.roomId &&
-        USERDATA._id !== receivedMessage.senderId
-      ) {
-        setMessages([...messages, receivedMessage]);
-      }
-    });
+    channel.bind(
+      "inserted",
+      function (data) {
+        receivedMessage = data.receiveMessage;
+        if (
+          receivedMessage.type === "PRIVATE" &&
+          roomId === receivedMessage.roomId &&
+          USERDATA._id !== receivedMessage.senderId
+        ) {
+          setMessages([...messages, receivedMessage]);
+        } else if (
+          receivedMessage.type === "GROUP" &&
+          roomId === receivedMessage.roomId &&
+          USERDATA._id !== receivedMessage.senderId
+        ) {
+          setMessages([...messages, receivedMessage]);
+        }
+      },
+      channel.unbind_all()
+    );
     return function () {
       channel.unbind_all();
       channel.unsubscribe();
