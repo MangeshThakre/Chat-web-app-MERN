@@ -2,9 +2,10 @@
   background-color: #001e3c;
   color:white ;
   height: 580px;
-  width: 340px;
+  width: 309px;
 border-top-left-radius: 10px;
 border-bottom-left-radius: 10px;
+box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px
 }
 
 .editProfileHeader{
