@@ -165,7 +165,7 @@ function Signin() {
               </Button>
             </div>
           </div>
-          <div style={{ color: "white" }}>
+          <div style={{ color: "white", textDecoration: "none" }}>
             <p>
               Create a new account
               <Link to="/signup">

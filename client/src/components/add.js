@@ -27,12 +27,13 @@ function Add({
       <Card
         className="add"
         style={{
-          height: "580px",
-          width: "340px",
+          height: "579px",
+          width: "309px",
           backgroundColor: "#001e3c",
           color: "white",
           borderTopLeftRadius: "10px",
           WebkitBorderBottomLeftRadius: "10px",
+          boxShadow: "rgb(0 0 0 / 35%) 0px 5px 15px",
         }}
       >
         <div style={{ height: "80px", width: "340px" }}>

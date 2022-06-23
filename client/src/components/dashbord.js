@@ -16,6 +16,7 @@ import Card from "@mui/material/Card";
 import ChatBoxFooter from "./ChatBoxFooter.js";
 import EditProfile from "./EditProfile.js";
 import Add from "./add.js";
+import CircularProgress from "@mui/material/CircularProgress";
 import ContactDetail from "./contactDetails";
 import Picker from "emoji-picker-react";
 import "./dashbord.css";
@@ -251,7 +252,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
         </div>
 
         {isLoading ? (
-          <div>loading...</div>
+          <CircularProgress />
         ) : (
           <div style={{ height: "580px", width: "1020px" }}>
             <Grid container spacing={0} columns={{ xs: 12 }}>

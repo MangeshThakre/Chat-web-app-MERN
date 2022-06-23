@@ -233,7 +233,13 @@ function Register() {
               </Button>
             </div>
           </div>
-          <div style={{ textAlign: "center", color: "white" }}>
+          <div
+            style={{
+              textAlign: "center",
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
             <p>
               Already have an account
               <Link to="/signin">

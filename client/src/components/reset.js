@@ -233,7 +233,13 @@ function Restet() {
                 </Collapse>
               </div>
 
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  textDecoration: "none",
+                }}
+              >
                 <p style={{ color: "white" }}>
                   Change
                   <Button onClick={() => setPasswordPage(false)}>Email</Button>

@@ -1,4 +1,5 @@
 .ContactDetail{
+
     background-color: #001e3c;
     color:white ;
     height: 580px;
@@ -7,6 +8,10 @@
  -ms-overflow-style: none;
 
   border-radius: 0 10px 10px 0;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+
   }
   .ContactDetail::-webkit-scrollbar {
     display: none;
