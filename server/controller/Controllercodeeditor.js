@@ -87,6 +87,7 @@ class codeeditorController {
   };
 
   static otp = async (req, res) => {
+    console.log("hello");
     try {
       const email = req.body.email;
       var otp = Math.floor(1000 + Math.random() * 9000);
@@ -97,13 +98,13 @@ class codeeditorController {
         secure: true,
         secureConnection: false,
         auth: {
-          user: "chatappofficial70@gmail.com", // generated ethereal user
-          pass: "chatapp.123", // generated ethereal password
+          user: process.env.EMAIL_ID, // generated ethereal user
+          pass: process.env.EMAIL_PASS, // generated ethereal password
         },
       });
       // send email
       var mailOptions = {
-        from: "chatappofficial70@gmail.com",
+        from: process.env.EMAIL_ID,
         to: email,
         subject: "Reset password",
         html: `Hello <b>${email}<b>,
