@@ -86,6 +86,7 @@ class codeeditorController {
     }
   };
 
+  // otp
   static otp = async (req, res) => {
     console.log("hello");
     try {
@@ -126,11 +127,12 @@ class codeeditorController {
     }
   };
 
+  // verify
   static verify = async (req, res) => {
     try {
       const user_id = req.user.id;
       const response = await userModel.findById(user_id);
-      console.log(response);
+      // console.log(response);
       res.json(response);
     } catch (error) {
       console.log("error:", error);
@@ -138,16 +140,19 @@ class codeeditorController {
     }
   };
 
+  // new contact
   static newContact = async (req, res) => {
     const contactPhoneNo = req.body.contactPhoneNo;
     const userId = req.user.id;
     const userPhoneNo = req.body.phoneNo;
+    const contactName = req.body.contactName;
     const newRoomId = md5(userPhoneNo + "_" + contactPhoneNo);
     const existingRoomId = md5(contactPhoneNo + "_" + userPhoneNo);
     var roomIds = [];
     var roomid;
+
     try {
-      // find contact have account in the chet app
+      // find contact have account in the chat app
       const contactRegistrationDetail = await userModel.find({
         phoneNo: contactPhoneNo,
       });
@@ -157,6 +162,7 @@ class codeeditorController {
           response: "contact not exist",
         });
 
+      // check new contact (phoneNo)  != own contact(phoneNo)
       if (contactRegistrationDetail[0].phoneNo == userPhoneNo)
         return res.json({
           response: "You can't add yourself",
@@ -168,20 +174,18 @@ class codeeditorController {
       });
 
       // find contact detail using user phoneNo (currently logged-In user phone No  )
-      const [UserNo_Exist] = await contactModel.find({
-        phoneNo: userPhoneNo,
-      });
+      const [UserNo_Exist] = await contactModel.find({ phoneNo: userPhoneNo });
 
+      // if user phoneNo [document present in collection "contactschemas"] exist.
+      //  If exist, then find the roomid(roomid=existingRoomId)
       if (UserNo_Exist && UserNo_Exist.roomId.includes(existingRoomId)) {
-        // if user phoneNo [document present in collention "contactschemas"] exist.
-        //  If exist, then find the roomid(roomid=existingRoomId)
         roomid = existingRoomId;
         roomIds =
           contactDetail.length != 0
             ? [...contactDetail[0].roomId, existingRoomId]
             : [existingRoomId];
-      } else {
         // if the user phoneNo is not present then find
+      } else {
         roomid = newRoomId;
         roomIds =
           contactDetail.length != 0
@@ -191,10 +195,14 @@ class codeeditorController {
       }
 
       if (contactDetail.length) {
-        if (!contactDetail[0].userIDs.includes(userId)) {
+        const isUserId = contactDetail[0].userIDs.some(
+          (e) => e.userId == userId
+        );
+
+        if (!isUserId) {
           console.log("update");
           const userIds = contactDetail[0].userIDs;
-          userIds.push(userId);
+          userIds.push({ userId, userName: contactName });
           const response = await contactModel.findByIdAndUpdate(
             contactDetail[0]._id,
             { userIDs: userIds, roomId: roomIds }
@@ -211,7 +219,7 @@ class codeeditorController {
       } else {
         console.log("enterNew");
         const newContact = new contactModel({
-          userIDs: req.user.id,
+          userIDs: { userId: userId, userName: contactName },
           name: req.body.contactName,
           phoneNo: req.body.contactPhoneNo,
           roomId: roomIds,
@@ -234,17 +242,35 @@ class codeeditorController {
     }
   };
 
+  // contact list
   static contactList = async (req, res) => {
     try {
       const response = await contactModel.find();
       const userId = req.user.id;
-
       var contactList = [];
+
       for (const contact of response) {
         contact.userIDs.find((e) => {
-          if (e === userId) contactList.push(contact);
+          if (e.userId && e.userId === userId) {
+            contact.userName = e.userName;
+
+            contactList.push({
+              _id: contact._id,
+              type: contact.type,
+              userIDs: contact.userIDs,
+              roomId: contact.roomId,
+              name: contact.name,
+              contactID: contact.contactID,
+              phoneNo: contact.phoneNo,
+              profilePic: contact.profilePic,
+              userName: contact.userName,
+            });
+          }
         });
       }
+
+      console.log(contactList);
+
       res.json(contactList);
     } catch (error) {
       res.sendStatus(403);
@@ -252,6 +278,7 @@ class codeeditorController {
     }
   };
 
+  // update image
   static updateimage = async (req, res) => {
     const path = req.file.path;
     const userId = req.user.id;
@@ -280,6 +307,7 @@ class codeeditorController {
     }
   };
 
+  // message
   static message = async (req, res) => {
     const senderId = req.user.id;
     const senderPhoneNo = req.body.senderPhoneNo;
@@ -303,15 +331,19 @@ class codeeditorController {
     }
   };
 
+  // new group
   static newgroup = async (req, res) => {
     const userId = req.user.id;
     const filePath = req.file?.path ? req.file.path : "";
     const groupName = req.body.groupName;
     const roomId = req.body.roomId;
-    const userIDs = req.body.userIDs + "," + userId;
+    const userIDs = (req.body.userIDs + "," + userId).split(",").map((e) => {
+      return { userName: groupName, userId: e };
+    });
+
     try {
       const newContact = new contactModel({
-        userIDs: userIDs.split(","),
+        userIDs: userIDs,
         name: groupName,
         roomId: roomId,
         profilePic: filePath,
@@ -321,10 +353,11 @@ class codeeditorController {
       res.json({ result, roomID: roomId });
     } catch (error) {
       res.sendStatus(500);
-      console.loc(error);
+      console.log(error);
     }
   };
 
+  // get messages
   static getMessage = async (req, res) => {
     try {
       const roomId = req.params["roomId"];
@@ -335,8 +368,9 @@ class codeeditorController {
     }
   };
 
+  // all members
   static allMembers = async (req, res) => {
-    const userIds = req.body.userIDs;
+    const userIds = req.body.userIDs.map((e) => e.userId);
     try {
       const response = await userModel.find({ _id: { $in: userIds } });
       res.json(response);
