@@ -1,33 +1,33 @@
-.EditProfile{
+.EditProfile {
   background-color: #001e3c;
-  color:white ;
+  color: white;
   height: 580px;
-  width: 309px;
-border-top-left-radius: 10px;
-border-bottom-left-radius: 10px;
-box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px
+  width: 260px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  box-shadow: rgb(0 0 0 / 35%) 0px 5px 15px;
 }
 
-.editProfileHeader{
-    display: flex;
-    align-items: center;
-border-top-left-radius: 10px;
+.editProfileHeader {
+  display: flex;
+  align-items: center;
+  border-top-left-radius: 10px;
 
-    height: 100px;
-    padding: 0px 0 0 20px;
-    background-color: #071a2e;
+  height: 100px;
+  padding: 0px 0 0 20px;
+  background-color: #071a2e;
 }
-.editProfileHeader > h3{
+.editProfileHeader > h3 {
   margin-left: 20px;
 }
-.userImg{
+.userImg {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 200px;
   position: relative;
 }
-.userImg > img{
+.userImg > img {
   object-fit: cover;
   height: 150px;
   width: 150px;
@@ -35,38 +35,35 @@ border-top-left-radius: 10px;
   cursor: pointer;
 }
 
-.edit{
+.edit {
   color: white;
-position: absolute;
-top: 138px;
-left: 200px;
-background-color: #0E1428;
-border-radius: 50%;
-height: 30px;
-width: 30px;
-display: flex;
-align-items: center;
-cursor: pointer;
-justify-content: center;
+  position: absolute;
+  top: 138px;
+  left: 200px;
+  background-color: #0e1428;
+  border-radius: 50%;
+  height: 30px;
+  width: 30px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
 }
-.userProfileInfo{
- margin: 0 30px 0 30px ;
-
+.userProfileInfo {
+  margin: 0 30px 0 30px;
 }
-.userProfileInfo >div {
-  margin-top:20px  ;
+.userProfileInfo > div {
+  margin-top: 20px;
   display: flex;
 }
 
-.userProfileInfo >div >div> p{
-margin: 0;
+.userProfileInfo > div > div > p {
+  margin: 0;
 }
-.userProfileInfo >div >div > h3 {
+.userProfileInfo > div > div > h3 {
   margin: 0 0 5px 0;
-  }
+}
 
-
-  .icon{
-    margin: 5px 15px 0px 0;
-  }
-
+.icon {
+  margin: 5px 15px 0px 0;
+}

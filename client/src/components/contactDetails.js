@@ -53,6 +53,7 @@ function ContactDetail({
 
   return (
     <div className="ContactDetail">
+      {/* head */}
       <div className="ContactDetailHeader">
         <span>
           <IconButton style={{ color: "white" }}>
@@ -63,6 +64,7 @@ function ContactDetail({
         </span>
         <h3>{currentlyChatingWith.name}</h3>
       </div>
+      {/* head end */}
       <div className="ContactDetailBody">
         <div className="userImg">
           <img
@@ -110,11 +112,13 @@ function ContactDetail({
         <div className="otherInfo">
           <>
             {currentlyChatingWith.type == "PRIVATE" ? (
+              // for private chat
               <CommanMember
                 contactList={contactList}
                 contactID={currentlyChatingWith.contactID}
               />
             ) : (
+              // for group chat
               <GroupMembers
                 currentlyChatingWith={currentlyChatingWith}
                 setaddParticapentsToggle={setaddParticapentsToggle}
@@ -124,6 +128,8 @@ function ContactDetail({
           </>
         </div>
       </div>
+
+      {/* leave group */}
       {currentlyChatingWith.type == "GROUP" ? (
         <div className="leaveGroup" style={{ position: "sticky", bottom: "0" }}>
           <ListItem
@@ -136,6 +142,7 @@ function ContactDetail({
           </ListItem>
         </div>
       ) : null}
+      {/* leave group  exit*/}
     </div>
   );
 }

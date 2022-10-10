@@ -2,7 +2,7 @@ import React from "react";
 import "./ChatBox.css";
 import { useSelector } from "react-redux";
 import ChatBoxMessage from "./ChatBoxMessage.js";
-import bj from "../img/bj.png";
+import bgIcon from "../img/icons8-chat-bubble-48.png";
 import { useRef, useEffect } from "react";
 function ChatBox({
   currentlyChatingWith,
@@ -47,7 +47,13 @@ function ChatBox({
 
   return (
     <div className="chatbox">
-      {currentlyChatingWith.length !== 0 ? allMessage : "....."}
+      {currentlyChatingWith.length !== 0 ? (
+        allMessage
+      ) : (
+        <div class="emptyChatBox">
+          <img src={bgIcon} alt="image" />
+        </div>
+      )}
     </div>
   );
 }

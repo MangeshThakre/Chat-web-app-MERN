@@ -1,9 +1,13 @@
-.chatboxFooter{
-    height:80px;
-    width: 100%;
-    background-color: #001e3c;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-border-bottom-right-radius: 10px;
+.chatboxFooter {
+  height: 80px;
+  width: 100%;
+  background-color: #47a4ff;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border-bottom-right-radius: 10px;
+}
+
+.react-input-emoji--input {
+  word-wrap: unset;
 }

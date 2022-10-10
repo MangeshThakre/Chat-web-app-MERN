@@ -20,8 +20,8 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
   const contactPhoneNo = contact.phoneNo;
   const existingroomId = md5(contactPhoneNo + "_" + phoneNo);
   const newroomId = md5(phoneNo + "_" + contactPhoneNo);
-  var roomId;
-  const room = () => {
+  let roomId = "";
+  function room() {
     if (contact?.type == "GROUP") {
       roomId = contact.roomId[0];
     } else {
@@ -33,24 +33,28 @@ function SidebarList({ contact, setCurrentlyChatingWith }) {
         }
       });
     }
-
     navigate(`/roomId/${roomId}`);
     setCurrentlyChatingWith(contact);
-  };
+  }
 
   return (
     <div>
       <Box>
-        <ListItem button alignItems="flex-start" onClick={() => room()}>
+        <ListItem
+          sx={{ borderRadius: "8px" }}
+          button
+          alignItems="flex-start"
+          onClick={() => room()}
+        >
           <ListItemAvatar>
             <Avatar
               alt={contact.name}
-              src={contact.profilePic ? URL + "/" + contact.profilePic : null}
+              src={contact.profilePic ? URL + "/" + contact.profilePic : ""}
             />
           </ListItemAvatar>
-          <ListItemText style={{ margin: "10px" }} primary={contact.name} />
+          <ListItemText style={{ margin: "10px" }} primary={contact.userName} />
         </ListItem>
-        <Divider variant="inset" component="li" color="primary" />
+        <Divider sx={{ margin: "10px" }} component="li" color="primary" />
       </Box>
     </div>
   );

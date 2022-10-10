@@ -35,7 +35,9 @@ function ChatBoxheader({ currentlyChatingWith, setContactDetailToggle }) {
 
           <div className="currentContactInfo">
             <h5>{currentlyChatingWith.name}</h5>
-            <p>{currentlyChatingWith.phoneNo}</p>
+            <p>
+              {currentlyChatingWith.phoneNo ? currentlyChatingWith.phoneNo : ""}
+            </p>
           </div>
         </div>
       ) : (

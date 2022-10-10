@@ -14,7 +14,9 @@ function Sidebar({ contactList, setCurrentlyChatingWith }) {
     <div className="sidebar">
       <List
         sx={{
-          width: "80%",
+          width: "90%",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {contactList.map((contact) => (

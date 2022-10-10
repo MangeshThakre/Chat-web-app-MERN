@@ -27,8 +27,6 @@ function Add({
       <Card
         className="add"
         style={{
-          height: "579px",
-          width: "309px",
           backgroundColor: "#001e3c",
           color: "white",
           borderTopLeftRadius: "10px",

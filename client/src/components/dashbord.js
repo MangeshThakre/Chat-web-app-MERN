@@ -256,7 +256,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
         ) : (
           <div style={{ height: "580px", width: "1020px" }}>
             <Grid container spacing={0} columns={{ xs: 12 }}>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <SideBarheader
                   toggle={toggle}
                   setToggle={setToggle}
@@ -270,7 +270,7 @@ function Dashbord({ crossOpen, setCrossOpen }) {
                   setContactDetailToggle={setContactDetailToggle}
                 />
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <Sidebar
                   contactList={contactList}
                   setCurrentlyChatingWith={setCurrentlyChatingWith}

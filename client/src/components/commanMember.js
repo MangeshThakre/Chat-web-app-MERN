@@ -6,14 +6,12 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 
 function CommanMember({ contactList, contactID }) {
-
   const URL = process.env.REACT_APP_API_URL;
 
   const group = contactList.filter(
-    (e) => e.type == "GROUP" && e.userIDs.includes(contactID)
+    (e) => e.type == "GROUP" && e.userIDs.some((e) => e.userId == contactID)
   );
 
-  console.log(group);
   return (
     <div className="commanMember">
       <p style={{ padding: "5px", margin: "0" }}>
