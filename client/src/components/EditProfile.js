@@ -91,7 +91,7 @@ function EditProfile({ toggle, setToggle, USERDATA }) {
             <div className="icon">
               <MarkunreadIcon />
             </div>
-            <div>
+            <div style={{ wordBreak: "break-all" }}>
               <p>email</p>
               <h3> {USERDATA.email}</h3>
             </div>
