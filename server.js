@@ -15,7 +15,7 @@ const { disconnect } = require("process");
 app.use(cors());
 const port = process.env.PORT || 8081;
 
-app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 app.use("/", router);
 
 //----------------------------
@@ -23,13 +23,14 @@ const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "client/build")));
   app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
   });
 } else {
   app.get("/", (req, res) => {
     res.send("app is runing successfully");
   });
 }
+
 //----------------------------
 app.listen(port, () => {
   console.log(`server listening at  http://localhost:${port}`);
